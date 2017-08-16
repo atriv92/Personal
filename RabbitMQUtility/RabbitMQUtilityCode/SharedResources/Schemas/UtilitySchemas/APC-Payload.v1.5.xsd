@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 (x64) (http://www.altova.com) by Björn Rundlöf (Fritidsresor AB) -->
+<xs:schema xmlns="urn:tuinordic:schemas:product:accommodation" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:tuinordic:schemas:product:accommodation" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0">
+	<xs:element name="APC">
+		<xs:annotation>
+			<xs:documentation>Represents an Accommodation Product Configuration. That is an accommodation product as it is configured for a specific planning or sales period, such as a season or colletion.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Id"/>
+				<xs:element name="State">
+					<xs:annotation>
+						<xs:documentation>The life-cycle state of the product configuration. Draft, Productify, Supply, Sales, Obsolete and Inactive.</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="Draft"/>
+							<xs:enumeration value="Productify"/>
+							<xs:enumeration value="Supply"/>
+							<xs:enumeration value="Sales"/>
+							<xs:enumeration value="Inactive"/>
+							<xs:enumeration value="Obsolete"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Version" type="xs:string" nillable="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The version/revision of the product configuration if revisioned.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="NameLong" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The long name version of the product.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="NameShort" type="xs:string" nillable="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The short name version of the product. Used for compatibility with legacy.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Code" type="xs:string" nillable="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The code, e.g. "house code", of the product configuration, which is in most cases the same as on the product. It represents in exceptional cases an alternative code overridden by the product configuration. Example: PAS</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="IsAlternateCode" type="xs:boolean" nillable="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>True if the Code is an alternate code.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Convenience" nillable="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Parent for StayPeriod related information.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="IsAllYear" type="xs:boolean">
+								<xs:annotation>
+									<xs:documentation>True if the APC's destination is operated all year round.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="StayPeriod" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Represents the stay period for the specific configuration, i.e. between the dates a passenger is supposed to stay at the accommodation.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ValidFrom" type="xs:date">
+											<xs:annotation>
+												<xs:documentation>The period when there are customers at the accommodation, same as first airplane out for a season hotel.			</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ValidTo" type="xs:date">
+											<xs:annotation>
+												<xs:documentation>The period when there are customers at the accommodation, same as last airplane out for a season hotel.			</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="BriefPeriod" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Represents the stay period for the specific configuration, i.e. between the dates a passenger is supposed to stay at the accommodation.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ValidFrom" type="xs:date">
+											<xs:annotation>
+												<xs:documentation>The period when there are customers at the accommodation, same as first airplane out for a season hotel.			</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ValidTo" type="xs:date">
+											<xs:annotation>
+												<xs:documentation>The period when there are customers at the accommodation, same as last airplane out for a season hotel.			</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Description" type="xs:string" nillable="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The description of the configured accommodation product, which can be inherited from the product itself.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Category" type="xs:string" nillable="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The name of the category the accommodation represents. E.g. Hotel, Cruise etc. If ommitted, it may reference an ordinary accommodation not in need of category.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Product" type="Reference">
+					<xs:annotation>
+						<xs:documentation>Reference to the mother product the configuration is built upon. Exemple: P-0000002</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Period" type="Reference" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Reference to the period the product configuration is targeting, such as a season.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ResortConfiguration" type="Reference" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Reference to the resort configuration for which the product is configured to be valid/sold. Use geo services to get Id for static Resort info.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Contracts" nillable="true">
+					<xs:annotation>
+						<xs:documentation>References to associated contracts using the TUI Nordic ID of the contract in the Contract Domain. Example: 700000534</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Contract" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="Reference">
+											<xs:sequence>
+												<xs:element name="IsMaster" type="xs:boolean">
+													<xs:annotation>
+														<xs:documentation>true if the associated contract represents a significant part of the APCs supply of room type allotment, either calculated or manyally assigned. false indicates that the contract is presumed secondary.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Brands" nillable="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Placeholder for brands which this APC is allowed.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Brand" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Represents a perticular brand the accommodation is valid for.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="Reference">
+											<xs:sequence>
+												<xs:element ref="Launch" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Represents the launch (phase and date) for particular markets/brands.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="ServiceLevels" nillable="true" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>Represents the main service level for the APC generally. It can be overridden by perticular brands and is then found under brands.</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element ref="ServiceLevel" minOccurs="0" maxOccurs="unbounded"/>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="Launch" minOccurs="0"/>
+				<xs:element name="Ancillaries" nillable="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Placeholder for ancillaries valid for the APC including any constraints.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Ancillary" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>The specific ancillary referenced incl. its conditions.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ProductRef" type="Reference">
+											<xs:annotation>
+												<xs:documentation>The id (reference) to the ancillary product.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ContractedItemRef" type="Reference" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Reference by id to the source item from a contract, e.g. a supplement.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ValidFrom" type="xs:date">
+											<xs:annotation>
+												<xs:documentation>The date from which the add-on is valid in the configuration, if constrained.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="ValidTo" type="xs:date">
+											<xs:annotation>
+												<xs:documentation>The date to which the add-on is valid in the configuration, if constrained.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TransportationStations" nillable="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>References by code or id to the tranportation stations valid for the configured product, e.g. an airport.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="TransportationStation" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Represents a specific transportation.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="Reference">
+											<xs:sequence>
+												<xs:element name="Type">
+													<xs:annotation>
+														<xs:documentation>Defines what type of transportation station - airport, train station etc.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:enumeration value="Airport"/>
+															<xs:enumeration value="TrainStation"/>
+															<xs:enumeration value="Seaport"/>
+															<xs:enumeration value="BusDepot"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:element>
+											</xs:sequence>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<!-- MAC I set this as nillable -->
+				<xs:element name="ServiceLevels" nillable="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Represents the main service level for the APC generally. It can be overridden by perticular brands and is then found under brands.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ServiceLevel" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Ingredients" nillable="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Placeholder for product ingredients applicable for the configuration.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Ingredient" type="Reference" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Represents a specific product ingredient. The Id is pointing to its definition.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EnvironmentalProperties" nillable="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Placeholder for environmental properties.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="EnvironmentalProperty" type="Reference" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Represents a specific environmental property.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Classification" type="xs:string" nillable="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The overall classification of the product during the period. Example: 3.5</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Concepts" nillable="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Placeholder for concepts applicable for the APC including any constraints. There can only be one valid in a particular point in time.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Concept" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>The specific concept. The Id, Name and Code come from its definition.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="Reference">
+											<xs:sequence>
+												<xs:element name="ValidFrom" type="xs:date" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>The date from which the concept is valid in the configuration, if constrained.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="ValidTo" type="xs:date" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>The date to which the concept is valid in the configuration, if constrained.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Labels" nillable="true" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Placeholder for labels applicable for the APC including any constraints. There can only be one valid in a particular point in time.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Label" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>The specific label. The Id, Name and Code come from its definition.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="Reference">
+											<xs:sequence>
+												<xs:element name="ValidFrom" type="xs:date" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>The date from which the label is valid in the configuration, if constrained.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+												<xs:element name="ValidTo" type="xs:date" minOccurs="0">
+													<xs:annotation>
+														<xs:documentation>The date to which the label is valid in the configuration, if constrained.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PRTs" nillable="true">
+					<xs:annotation>
+						<xs:documentation>Placeholder for all applicable product room types applicable for the configured accommodation product.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="PRT" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Describes the specific product room type (PRT). This applies to a certain revision/version.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PRGs" nillable="true">
+					<xs:annotation>
+						<xs:documentation>Placeholder for product romm groups, grouping the valid PRTs.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="PRG" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="schemaVersion">
+				<xs:annotation>
+					<xs:documentation>The version of the schema used for the information structure.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="sourceSnapshotId" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>A GUID identifying the distinct origin message.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="sourceSnapshotCreated" type="xs:dateTime" use="required">
+				<xs:annotation>
+					<xs:documentation>A time stamp indicating when the origin message was created.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PRT">
+		<xs:annotation>
+			<xs:documentation>Describes the product room type (PRT) applicable for the configured accommodation product. This applies to a certain revision/version.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Id">
+					<xs:annotation>
+						<xs:documentation>The pubilc id of the PRT. E.g. PRT-00000001464</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ValidFrom" type="xs:date" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The date from which the revision of the PRT is valid.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Description" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The PRT's description.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Remark" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The PRT's remark.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ExtraBedConfiguration" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Extra bed possibilities for the room type.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="QtyAdult" type="xs:int" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>The number of extra beds available for adults for the room type.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Operator" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Type of extra bed - Adult, Child or EitherOr (meaning either one adult or two children).</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="And"/>
+										<xs:enumeration value="Or"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="QtyChild" type="xs:int" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>The number of extra beds available for children for the room type.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Facilities" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>References by id to facilitities applicable for the room type.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Facility" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>The specific facility.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="Reference">
+											<xs:sequence>
+												<xs:element name="SourceQty" type="xs:int" minOccurs="0"/>
+											</xs:sequence>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SRTs" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>References by id to the contracted room types, i.e. supplier room type (SRT). These references items in another aggregate root, SRT belongs to the Contract Domain.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SRT" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>The specific SRT referenced. The reference to a SRT consist of 2 references: Accommodation Contract-reference (TUIN_HotelcontractID) and SRT-reference (CS_RoomTypeNumber)</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="Reference">
+											<xs:sequence>
+												<xs:element name="RoomTypeNumber" type="xs:string">
+													<xs:annotation>
+														<xs:documentation>The room type number identifying the room type in the corresponding accommodation contract.</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="BasicBoard" type="Reference" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Reference to the add-on (meal) realising the general basic board for this configuration.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Occupancy" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Holds information about occupancy - min, max and normal.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PaxMin" type="xs:int">
+								<xs:annotation>
+									<xs:documentation>The minimum number of passengers (pax min) for the room type.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="PaxNom" type="xs:int">
+								<xs:annotation>
+									<xs:documentation>The nominal number of passengers (pax nom) for the room type.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="PaxMax" type="xs:int">
+								<xs:annotation>
+									<xs:documentation>The maximum number of passengers (pax max) for the room type including extra beds.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="RoomTypeCategory" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The room type category as defined in product management. Example: 12 (one room for two persons), 22 (two rooms for two persons), DR (double room) etc.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="RoomStandardCode" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The code of the room standard as defined in product management. Example: NO (normal), SU (superior) etc.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="EmptyBeds" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Holds information about empty beds - allotment per period.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="EmptyBed" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>The specific empty bed.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Value" type="xs:int">
+											<xs:annotation>
+												<xs:documentation>Empty bed value.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Period">
+											<xs:annotation>
+												<xs:documentation>The empty bed period.</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="From" type="xs:date">
+														<xs:annotation>
+															<xs:documentation>The period start date.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="To" type="xs:date">
+														<xs:annotation>
+															<xs:documentation>The period end date.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PRGReference" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Reference to the PRG (room group) the PRT is valid for.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PRG">
+		<xs:annotation>
+			<xs:documentation>Represents the product room group (PRG) which is the abstraction/collection of room types identified as the same from a customer point of view. All the specific room types belonging to the same PRG should be sold as the same type of room and be priced accordingly.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Id">
+					<xs:annotation>
+						<xs:documentation>The pubilc id of the PRG. E.g. PRG-00000001464</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Code" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Legacy code for the room group. The code is reused over periods (seasons) if possible and unique within a specific accommodation but not in a broader context. Example: C0001</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Classification" type="xs:string" nillable="true">
+					<xs:annotation>
+						<xs:documentation>The overall classification of the product during the period. Example: 3.5</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Id" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>The public id of the particular object. Example PC-00000000123</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="Reference">
+		<xs:annotation>
+			<xs:documentation>An extended reference type including name and code. The purpose is for consumers to quickly be able to get names and codes directly in the message instead of having to lookup the source entity.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="Id"/>
+			<xs:element name="SourceReference" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The id for the Source reference. Example "EB1"</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="Type" type="xs:string">
+								<xs:annotation>
+									<xs:documentation>For example "MCS"</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Name" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The name of the entity instance.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Code" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The code of the entity instance.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Launch" nillable="true">
+		<xs:annotation>
+			<xs:documentation>Represents the main launch for the APC itself. It may be equivalent or overridden by specific brand launches.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Phase" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The name of the launch phase. Exemple: Main</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Date" type="xs:date" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The date of the launch, i.e. the sales start date.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ServiceLevel">
+		<xs:annotation>
+			<xs:documentation>Represents a particular service level with code and any time constraints.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Code" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The service level code. E.g. 350</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ValidFrom" type="xs:date" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The date from which the service level is valid in the configuration, if constrained.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ValidTo" type="xs:date" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The date to which the service level is valid in the configuration, if constrained.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

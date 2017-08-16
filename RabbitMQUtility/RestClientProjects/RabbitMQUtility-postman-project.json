@@ -1,0 +1,306 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Converted from WADL",
+		"_postman_id": "20f5d474-eeba-812f-6ba8-b6970165790c",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "apc",
+			"description": "apc",
+			"item": [
+				{
+					"name": "http://localhost:7911/apc",
+					"request": {
+						"url": {
+							"raw": "http://localhost:7911/apc?TraceQueue=DefaultTraceQueue&MainQueue=DefaultMainQueue&Products=DefaultProductId&FromEnv=TEST&ToEnv=TEST",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7911",
+							"path": [
+								"apc"
+							],
+							"query": [
+								{
+									"key": "TraceQueue",
+									"value": "DefaultTraceQueue",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "MainQueue",
+									"value": "DefaultMainQueue",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "Products",
+									"value": "DefaultProductId",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "FromEnv",
+									"value": "TEST",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "ToEnv",
+									"value": "TEST",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [],
+						"body": {}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "dapc",
+			"description": "dapc",
+			"item": [
+				{
+					"name": "http://localhost:7911/dapc",
+					"request": {
+						"url": {
+							"raw": "http://localhost:7911/dapc?TraceQueue=default&MainQueue=default&Products=default&FromEnv=default&ToEnv=default",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7911",
+							"path": [
+								"dapc"
+							],
+							"query": [
+								{
+									"key": "TraceQueue",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "MainQueue",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "Products",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "FromEnv",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "ToEnv",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [],
+						"body": {}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "generic",
+			"description": "generic",
+			"item": [
+				{
+					"name": "http://localhost:7911/generic",
+					"request": {
+						"url": {
+							"raw": "http://localhost:7911/generic?TraceQueue=default&MainQueue=default&Products=default&FromEnv=default&ToEnv=default",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7911",
+							"path": [
+								"generic"
+							],
+							"query": [
+								{
+									"key": "TraceQueue",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "MainQueue",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "Products",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "FromEnv",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "ToEnv",
+									"value": "default",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [],
+						"body": {}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "images",
+			"description": "images",
+			"item": [
+				{
+					"name": "http://localhost:7911/images",
+					"request": {
+						"url": {
+							"raw": "http://localhost:7911/images?TraceQueue=TraceQueue&MainQueue=MainQueue&Products=Products&FromEnv=FromEnv&ToEnv=ToEnv",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7911",
+							"path": [
+								"images"
+							],
+							"query": [
+								{
+									"key": "TraceQueue",
+									"value": "TraceQueue",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "MainQueue",
+									"value": "MainQueue",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "Products",
+									"value": "Products",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "FromEnv",
+									"value": "FromEnv",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "ToEnv",
+									"value": "ToEnv",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [],
+						"body": {}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "videos",
+			"description": "videos",
+			"item": [
+				{
+					"name": "http://localhost:7911/videos",
+					"request": {
+						"url": {
+							"raw": "http://localhost:7911/videos?TraceQueue=TraceQueue&MainQueue=MainQueue&Products=Products&FromEnv=FromEnv&ToEnv=ToEnv",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7911",
+							"path": [
+								"videos"
+							],
+							"query": [
+								{
+									"key": "TraceQueue",
+									"value": "TraceQueue",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "MainQueue",
+									"value": "MainQueue",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "Products",
+									"value": "Products",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "FromEnv",
+									"value": "FromEnv",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "ToEnv",
+									"value": "ToEnv",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [],
+						"body": {}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

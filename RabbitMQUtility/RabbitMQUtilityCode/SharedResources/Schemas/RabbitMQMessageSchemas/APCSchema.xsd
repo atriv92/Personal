@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="Messages" type="JSONType"/>
+	<xs:complexType name="headersType">
+		<xs:all>
+			<xs:element name="Master" type="xs:string" minOccurs="0"/>
+			<xs:element name="State" type="xs:string" minOccurs="0"/>
+			<xs:element name="TransactionKey" type="xs:string" minOccurs="0"/>
+			<xs:element name="Type" type="xs:string" minOccurs="0"/>
+			<xs:element name="x-received-from" type="x-received-fromType" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="propertiesType">
+		<xs:all>
+			<xs:element name="message_id" type="xs:string" minOccurs="0"/>
+			<xs:element name="delivery_mode" type="xs:byte" minOccurs="0"/>
+			<xs:element name="headers" type="headersType" minOccurs="0"/>
+			<xs:element name="content_encoding" type="xs:string" minOccurs="0"/>
+			<xs:element name="content_type" type="xs:string" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="x-received-fromType">
+		<xs:all>
+			<xs:element name="uri" type="xs:string" minOccurs="0"/>
+			<xs:element name="exchange" type="xs:string" minOccurs="0"/>
+			<xs:element name="redelivered" type="xs:string" minOccurs="0"/>
+			<xs:element name="cluster-name" type="xs:string" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="JSONType">
+		<xs:sequence>
+			<xs:element name="payload_bytes" type="xs:short" minOccurs="0"/>
+			<xs:element name="redelivered" type="xs:string" minOccurs="0"/>
+			<xs:element name="exchange" type="xs:string" minOccurs="0"/>
+			<xs:element name="routing_key" type="xs:string" minOccurs="0"/>
+			<xs:element name="message_count" type="xs:int" minOccurs="0"/>
+			<xs:element ref="properties"/>
+			<xs:element name="payload" type="xs:string" minOccurs="0"/>
+			<xs:element name="payload_encoding" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="properties" type="propertiesType"/>
+</xs:schema>

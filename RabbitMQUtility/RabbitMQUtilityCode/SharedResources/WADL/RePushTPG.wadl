@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://wadl.dev.java.net/2009/02" name="RePushTPG">
+    <resources name="TPG" base="http://%%Connection/HTTP/CMS/Host%%:%%Connection/HTTP/CMS/Port%%">
+        <resource id="APC" path="apc">
+            <method id="Push" name="GET">
+                <request name="Request">
+                    <param name="TraceQueue" style="query" required="true" default="DefaultTraceQueue"/>
+                    <param name="MainQueue" style="query" required="true" default="DefaultMainQueue"/>
+                    <param name="Products" style="query" required="true" default="DefaultProductId"/>
+                    <param name="FromEnv" style="query" required="true" default="TEST"/>
+                    <param name="ToEnv" style="query" required="true" default="TEST"/>
+                </request>
+                <response name="Response"/>
+            </method>
+        </resource>
+        <resource id="contentimages" path="images">
+            <method id="images" name="GET">
+                <request name="Request">
+                    <param name="TraceQueue" style="query" required="true" default="TraceQueue"/>
+                    <param name="MainQueue" style="query" required="true" default="MainQueue"/>
+                    <param name="Products" style="query" required="true" default="Products"/>
+                    <param name="FromEnv" style="query" required="true" default="FromEnv"/>
+                    <param name="ToEnv" style="query" required="true" default="ToEnv"/>
+                </request>
+                <response name="Response"/>
+            </method>
+        </resource>
+        <resource id="dapc" path="dapc">
+            <method id="dapcmessage" name="GET">
+                <request name="Request">
+                    <param name="TraceQueue" style="query" required="true" default="default"/>
+                    <param name="MainQueue" style="query" required="true" default="default"/>
+                    <param name="Products" style="query" required="true" default="default"/>
+                    <param name="FromEnv" style="query" required="true" default="default"/>
+                    <param name="ToEnv" style="query" required="true" default="default"/>
+                </request>
+                <response name="Response"/>
+            </method>
+        </resource>
+        <resource id="generic" path="generic">
+            <method id="GenericMethod" name="GET">
+                <request name="Request">
+                    <param name="TraceQueue" style="query" required="true" default="default"/>
+                    <param name="MainQueue" style="query" required="true" default="default"/>
+                    <param name="Products" style="query" required="true" default="default"/>
+                    <param name="FromEnv" style="query" required="true" default="default"/>
+                    <param name="ToEnv" style="query" required="true" default="default"/>
+                </request>
+                <response name="Response"/>
+            </method>
+        </resource>
+        <resource id="videos" path="videos">
+            <method id="video" name="GET">
+                <request name="Request">
+                    <param name="TraceQueue" style="query" required="true" default="TraceQueue"/>
+                    <param name="MainQueue" style="query" required="true" default="MainQueue"/>
+                    <param name="Products" style="query" required="true" default="Products"/>
+                    <param name="FromEnv" style="query" required="true" default="FromEnv"/>
+                    <param name="ToEnv" style="query" required="true" default="ToEnv"/>
+                </request>
+                <response name="Response"/>
+            </method>
+        </resource>
+    </resources>
+</application>

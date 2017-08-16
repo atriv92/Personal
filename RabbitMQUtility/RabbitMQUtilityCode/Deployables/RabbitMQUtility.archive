@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
+    <enterpriseArchive>
+        <sharedArchive name="Shared Archive">
+            <resourceType>shared.archive.resource</resourceType>
+            <authorProperty>atriv4</authorProperty>
+        </sharedArchive>
+        <processArchive name="Process Archive">
+            <resourceType>process.archive.resource</resourceType>
+            <authorProperty>atriv4</authorProperty>
+            <processProperty>/Re-Push/RequestDispatcher/RabbitMQService.process</processProperty>
+        </processArchive>
+        <versionProperty>2</versionProperty>
+        <authorProperty>atriv4</authorProperty>
+        <addServiceSettableGvars>true</addServiceSettableGvars>
+        <name>RabbitMQUtility</name>
+        <designer>
+            <lockedProperties/>
+            <fixedChildren/>
+            <resourceDescriptions/>
+        </designer>
+        <fileLocationProperty>D:\Webhub\RabbitMQUtility\rabbitmqutility\developer-zone-tibco-esb\ear\rabbitmqutility.ear</fileLocationProperty>
+    </enterpriseArchive>
+</Repository:repository>

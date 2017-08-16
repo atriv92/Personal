@@ -1,0 +1,37 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
+	<globalVariables>
+		<globalVariable>
+			<name>Host</name>
+			<value>10.78.23.15</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1472539574207</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>Password</name>
+			<value>#!zWOpRRmtXgiJkfrNIPSwrA==</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>Password</type>
+			<modTime>1500014825233</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>Port</name>
+			<value>15672</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1472539574225</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>UserName</name>
+			<value>webhub</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1472539574235</modTime>
+		</globalVariable>
+	</globalVariables>
+</repository>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx3="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd7" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd3">
+    <xsd:import namespace="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd3" schemaLocation="/SharedResources/Schemas/EmployeePersonalDetails.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd7" schemaLocation="/SharedResources/Schemas/SuccessOutput.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" schemaLocation="/SharedResources/Schemas/ErrorSchema.xsd"/>
+    <pd:name>REST/EmployeeInfoPortal/RestMethodBindings/UpdateEmployeePersonalDetails.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:EmployeePersonalDetails"/>
+    <pd:startX>150</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <xsl:choose>
+            <xsl:when test="exists($_error/ns:ErrorReport/MsgCode)">
+                <Response>
+                    <JsonString>
+                        <xsl:value-of select="$Render-JSON-1/ns1:ActivityOutputClass/jsonString"/>
+                    </JsonString>
+                </Response>
+            </xsl:when>
+            <xsl:otherwise>
+                <Response>
+                    <JsonString>
+                        <xsl:value-of select="$Render-JSON/ns1:ActivityOutputClass/jsonString"/>
+                    </JsonString>
+                </Response>
+            </xsl:otherwise>
+        </xsl:choose>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="Response">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="JsonString" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>545</pd:endX>
+    <pd:endY>117</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1453379536678</pd:targetNamespace>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>179</pd:x>
+        <pd:y>163</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="JDBC Update">
+        <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+        <pd:x>286</pd:x>
+        <pd:y>63</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>UPDATE EMPLOYEEPERSONALDETAILS SET DOB =?,ADDLINE1=?,ADDLINE2=?,CITY=?,PIN=?,STATE=?,COUNTRY=?,SPOUSE=?,CHILDREN=?,PASSPORTDETALS=? WHERE EMPID=?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>DOB</parameterName>
+                    <dataType>DATE</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>AddLine1</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>AddLine2</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>City</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>PIN</parameterName>
+                    <dataType>INTEGER</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>State</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>Country</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>Spouse</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>Children</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>PassportDetails</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>EmpID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+        </config>
+        <pd:inputBindings>
+            <jdbcUpdateActivityInput>
+                <DOB>
+                    <xsl:value-of select="$Start/pfx:EmployeePersonalDetails/pfx:DOB"/>
+                </DOB>
+                <AddLine1>
+                    <xsl:value-of select="$Start/pfx:EmployeePersonalDetails/pfx:AddLine1"/>
+                </AddLine1>
+                <AddLine2>
+                    <xsl:value-of select="$Start/pfx:EmployeePersonalDetails/pfx:AddLine2"/>
+                </AddLine2>
+                <City>
+                    <xsl:value-of select="$Start/pfx:EmployeePersonalDetails/pfx:City"/>
+                </City>
+                <PIN>
+                    <xsl:value-of select="$Start/pfx:EmployeePersonalDetails/pfx:PIN"/>
+                </PIN>
+                <State>
+                    <xsl:value-of select="$Start/pfx:EmployeePersonalDetails/pfx:State"/>
+                </State>
+                <Country>
+                    <xsl:value-of select="$Start/pfx:EmployeePersonalDetails/pfx:Country"/>
+                </Country>
+                <Spouse>
+                    <xsl:value-of select="$Start/pfx:EmployeePersonalDetails/pfx:Spouse"/>
+                </Spouse>
+                <Children>
+                    <xsl:value-of select="$Start/pfx:EmployeePersonalDetails/pfx:Children"/>
+                </Children>
+                <PassportDetails>
+                    <xsl:value-of select="$Start/pfx:EmployeePersonalDetails/pfx:PassportDetails"/>
+                </PassportDetails>
+                <EmpID>
+                    <xsl:value-of select="$Start/pfx:EmployeePersonalDetails/pfx:EmpID"/>
+                </EmpID>
+            </jdbcUpdateActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Map Data">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>290</pd:x>
+        <pd:y>163</pd:y>
+        <config>
+            <element ref="pfx2:Error"/>
+        </config>
+        <pd:inputBindings>
+            <xsl:choose>
+                <xsl:when test="exists($_error_JDBC-Update/ActivityErrors)">
+                    <pfx2:Error>
+                        <pfx2:ErrorStatus>
+                            <xsl:value-of select="&quot;Error in Updating Employee Personal Details&quot;"/>
+                        </pfx2:ErrorStatus>
+                        <pfx2:ErrorCode>
+                            <xsl:value-of select="$_error/ns:ErrorReport/MsgCode"/>
+                        </pfx2:ErrorCode>
+                    </pfx2:Error>
+                </xsl:when>
+                <xsl:otherwise>
+                    <pfx2:Error>
+                        <pfx2:ErrorStatus>
+                            <xsl:value-of select="$_error/ns:ErrorReport/Msg"/>
+                        </pfx2:ErrorStatus>
+                        <pfx2:ErrorCode>
+                            <xsl:value-of select="$_error/ns:ErrorReport/MsgCode"/>
+                        </pfx2:ErrorCode>
+                    </pfx2:Error>
+                </xsl:otherwise>
+            </xsl:choose>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render JSON">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>421</pd:x>
+        <pd:y>62</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor ref="pfx3:OperationResponse"/>
+        </config>
+        <pd:inputBindings>
+            <ns1:ActivityInputClass>
+                <pfx3:OperationResponse>
+                    <pfx3:StatusCode>
+                        <xsl:value-of select="&quot;Success&quot;"/>
+                    </pfx3:StatusCode>
+                    <pfx3:StatusMessage>
+                        <xsl:value-of select="&quot;Employee's Personal Details Are Updated Successfully&quot;"/>
+                    </pfx3:StatusMessage>
+                </pfx3:OperationResponse>
+            </ns1:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render-JSON-1">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>413</pd:x>
+        <pd:y>163</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor ref="pfx2:Error"/>
+        </config>
+        <pd:inputBindings>
+            <ns1:ActivityInputClass>
+                <xsl:copy-of select="$Map-Data/pfx2:Error"/>
+            </ns1:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>JDBC Update</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>JDBC Update</pd:from>
+        <pd:to>Render JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render JSON</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render-JSON-1</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Map Data</pd:from>
+        <pd:to>Render-JSON-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

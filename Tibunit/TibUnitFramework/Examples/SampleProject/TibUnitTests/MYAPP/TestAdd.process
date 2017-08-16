@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/pe/DeployedVarsType" xmlns:BW="java://com.tibco.pe.core.JavaCustomXPATHFunctions" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/schemas/BWUnitTest/Schema.xsd" xmlns:ns3="http://www.tibco.com/schemas/TibUnit/Schema.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <pd:name>TibUnitTests/MYAPP/TestAdd.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="input" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="output" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="TibUnit">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="processFileName" type="xsd:string"/>
+                                <xsd:element name="parentFolder" type="xsd:string"/>
+                                <xsd:element name="completeProcessName" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>25</pd:startX>
+    <pd:startY>57</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>470</pd:endX>
+    <pd:endY>58</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1452005389236</pd:targetNamespace>
+    <pd:activity name="Add">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>271</pd:x>
+        <pd:y>59</pd:y>
+        <config>
+            <processName>/MyApp/addition/Add.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <input1>
+                    <xsl:value-of select="$ParseInputXML/root/input1"/>
+                </input1>
+                <input2>
+                    <xsl:value-of select="$ParseInputXML/root/input2"/>
+                </input2>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="AssertEqual">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>373</pd:x>
+        <pd:y>59</pd:y>
+        <config>
+            <processName>/TibUnit/Assert.process</processName>
+        </config>
+        <pd:inputBindings>
+            <AssertionInput>
+                <ns3:AssertType>
+                    <xsl:value-of select="$_globalVariables/ns2:GlobalVariables/TibUnit/ASSERT_EQUAL"/>
+                </ns3:AssertType>
+                <UniqueName>
+                    <xsl:value-of select="concat(&#xA;BW:getCurrentProcessName($_processContext/ns1:ProcessContext/ProcessId),'-',&#xA;BW:getCurrentActivityName($_processContext/ns1:ProcessContext/ProcessId)&#xA;)"/>
+                </UniqueName>
+                <trueResult>
+                    <messageCode>
+                        <xsl:value-of select="'200'"/>
+                    </messageCode>
+                    <message>
+                        <xsl:value-of select="'Success'"/>
+                    </message>
+                </trueResult>
+                <falseResult>
+                    <messageCode>
+                        <xsl:value-of select="'500'"/>
+                    </messageCode>
+                    <message>
+                        <xsl:value-of select="'Failure'"/>
+                    </message>
+                </falseResult>
+                <expectedResult>
+                    <xsl:if test="$ParseOutputXml/root/output">
+                        <value>
+                            <xsl:value-of select="$ParseOutputXml/root/output"/>
+                        </value>
+                    </xsl:if>
+                </expectedResult>
+                <actualResult>
+                    <value>
+                        <xsl:value-of select="$Add/root/sum"/>
+                    </value>
+                </actualResult>
+                <xsl:copy-of select="$Start/root/TibUnit"/>
+            </AssertionInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ParseInputXML">
+        <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
+        <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
+        <pd:x>169</pd:x>
+        <pd:y>59</pd:y>
+        <config>
+            <inputStyle>text</inputStyle>
+            <xsdVersion>default</xsdVersion>
+            <validateOutput>true</validateOutput>
+            <term>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="input1" type="xsd:double"/>
+                            <xsd:element name="input2" type="xsd:double"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </term>
+        </config>
+        <pd:inputBindings>
+            <xmlString>
+                <xsl:value-of select="$Start/root/input"/>
+            </xmlString>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ParseOutputXml">
+        <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
+        <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
+        <pd:x>175</pd:x>
+        <pd:y>145</pd:y>
+        <config>
+            <inputStyle>text</inputStyle>
+            <xsdVersion>default</xsdVersion>
+            <validateOutput>true</validateOutput>
+            <term>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="output" type="xsd:double" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </term>
+        </config>
+        <pd:inputBindings>
+            <xmlString>
+                <xsl:value-of select="$Start/root/output"/>
+            </xmlString>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="AssertNotEqual">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>471</pd:x>
+        <pd:y>146</pd:y>
+        <config>
+            <processName>/TibUnit/Assert.process</processName>
+        </config>
+        <pd:inputBindings>
+            <AssertionInput>
+                <ns3:AssertType>
+                    <xsl:value-of select="$_globalVariables/ns2:GlobalVariables/TibUnit/ASSERT_NOT_EQUAL"/>
+                </ns3:AssertType>
+                <UniqueName>
+                    <xsl:value-of select="concat(&#xA;BW:getCurrentProcessName($_processContext/ns1:ProcessContext/ProcessId),'-',&#xA;BW:getCurrentActivityName($_processContext/ns1:ProcessContext/ProcessId)&#xA;)"/>
+                </UniqueName>
+                <trueResult>
+                    <messageCode>
+                        <xsl:value-of select="'200'"/>
+                    </messageCode>
+                    <message>
+                        <xsl:value-of select="'Success'"/>
+                    </message>
+                </trueResult>
+                <falseResult>
+                    <messageCode>
+                        <xsl:value-of select="'500'"/>
+                    </messageCode>
+                    <message>
+                        <xsl:value-of select="'Failure'"/>
+                    </message>
+                </falseResult>
+                <expectedResult>
+                    <value>
+                        <xsl:value-of select="'10'"/>
+                    </value>
+                </expectedResult>
+                <actualResult>
+                    <value>
+                        <xsl:value-of select="$Add/root/sum"/>
+                    </value>
+                </actualResult>
+                <xsl:copy-of select="$Start/root/TibUnit"/>
+            </AssertionInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>ParseInputXML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Add</pd:from>
+        <pd:to>AssertEqual</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AssertEqual</pd:from>
+        <pd:to>AssertNotEqual</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ParseInputXML</pd:from>
+        <pd:to>Add</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ParseOutputXml</pd:from>
+        <pd:to>AssertEqual</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>ParseOutputXml</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AssertNotEqual</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

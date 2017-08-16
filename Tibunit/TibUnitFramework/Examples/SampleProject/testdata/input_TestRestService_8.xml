@@ -1,0 +1,4 @@
+<root>
+	<method>/updateFinance</method>
+	<querystring>KBGID=abane6116487&amp;FullName=Abhishek Banerjee&amp;PAN=BAN001&amp;PayBand=Junior Associate&amp;Salary=30000&amp;Allowances=5000&amp;Retirals=100000&amp;Bonus=2000</querystring>
+</root>

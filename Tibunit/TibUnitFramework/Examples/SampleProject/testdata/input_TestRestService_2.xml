@@ -1,0 +1,4 @@
+<root>
+	<method>/createEmployee</method>
+	<querystring>EmpID=TestEmp&amp;FullName=TestName&amp;Designation=TestDesignation&amp;OracleID=TestOracleID&amp;KBGID=TestKBGID&amp;Billability=false&amp;Role=TestRole&amp;PID=TestPID&amp;ProjectName=TestProject&amp;PIDStartDate=2015-12-12&amp;PIDEndDate=2016-12-12&amp;FirstName=Test&amp;SurName=Name&amp;DOJ=2015-11-11&amp;DOB=1999-11-11&amp;AddLine1=OxygenTower&amp;AddLine2=Sector-144&amp;City=Noida&amp;PIN=201301&amp;State=UP&amp;Country=India&amp;Spouse=N/A&amp;Children=N/A&amp;PassportDetails=passport111&amp;PAN=PAN111&amp;PayBand=JuniorAssociate&amp;Salary=1000&amp;Allowances=100&amp;Retirals=10&amp;Bonus=1</querystring>
+</root>

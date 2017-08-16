@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://schemas.tibco.com/bw/plugins/xml/5.0/RESTJSONExceptions" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx5="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx4="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd7" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xsd:import namespace="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" schemaLocation="/SharedResources/Schemas/ErrorSchema.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd7" schemaLocation="/SharedResources/Schemas/SuccessOutput.xsd"/>
+    <pd:name>REST/EmployeeInfoPortal/RestMethodBindings/DeleteEmployee.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="EmpID" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>150</pd:startX>
+    <pd:startY>65</pd:startY>
+    <pd:returnBindings>
+        <xsl:choose>
+            <xsl:when test="exists($_error/ns:ErrorReport/MsgCode)">
+                <Response>
+                    <JsonString>
+                        <xsl:value-of select="$Render-JSON-1/ns2:ActivityOutputClass/jsonString"/>
+                    </JsonString>
+                </Response>
+            </xsl:when>
+            <xsl:otherwise>
+                <Response>
+                    <JsonString>
+                        <xsl:value-of select="$Render-JSON/ns2:ActivityOutputClass/jsonString"/>
+                    </JsonString>
+                </Response>
+            </xsl:otherwise>
+        </xsl:choose>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="Response">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="JsonString" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>833</pd:endX>
+    <pd:endY>111</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1453379536678</pd:targetNamespace>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>400</pd:x>
+        <pd:y>171</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="FTP Delete File">
+        <pd:type>com.tibco.plugin.ftp.FTPDeleteFileActivity</pd:type>
+        <pd:resourceType>ae.activities.FTPDeleteFileActivityUI</pd:resourceType>
+        <pd:x>546</pd:x>
+        <pd:y>65</pd:y>
+        <config>
+            <SharedUserData>/Connections/FTP/FTP Connection.sharedftp</SharedUserData>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <RemoteFileName>
+                    <xsl:value-of select="concat(&quot;/home/userftp/Test_AbhishekB/&quot;, concat($GetEmployeeDetails/resultSet/Record[1]/KBGID,&quot;.txt&quot;))"/>
+                </RemoteFileName>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetEmployeeDetails">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>261</pd:x>
+        <pd:y>65</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>SELECT * FROM EMPLOYEE WHERE EMPLOYEE.EMPID = ?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>EmployeeID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <oraObjects/>
+            <oraTables/>
+            <QueryOutputCachedSchemaColumns>EMPID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>FULLNAME</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>DESIGNATION</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>ORACLEID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>KBGID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput>
+                <EmployeeID>
+                    <xsl:value-of select="$Start/root/EmpID"/>
+                </EmployeeID>
+            </jdbcQueryActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="JDBC Update">
+        <pd:type>com.tibco.plugin.jdbc.JDBCUpdateActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCUpdateActivity</pd:resourceType>
+        <pd:x>401</pd:x>
+        <pd:y>65</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>DELETE FROM EMPLOYEE,EMPLOYEEPERSONALDETAILS,PROJECTASSIGNMENT WHERE EMPLOYEE.EMPID=? AND EMPLOYEEPERSONALDETAILS.EMPID=? AND PROJECTASSIGNMENT.ORACLEID=?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>Employee.EmpID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>EmployeePersonalDetails.EmpID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>ProjectAssignment.OracleID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+        </config>
+        <pd:inputBindings>
+            <jdbcUpdateActivityInput>
+                <Employee.EmpID>
+                    <xsl:choose>
+                        <xsl:when test="exists($GetEmployeeDetails/resultSet/Record[1]/EMPID)">
+                            <xsl:value-of select="$GetEmployeeDetails/resultSet/Record[1]/EMPID"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </Employee.EmpID>
+                <EmployeePersonalDetails.EmpID>
+                    <xsl:choose>
+                        <xsl:when test="exists($GetEmployeeDetails/resultSet/Record[1]/EMPID)">
+                            <xsl:value-of select="$GetEmployeeDetails/resultSet/Record[1]/EMPID"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </EmployeePersonalDetails.EmpID>
+                <ProjectAssignment.OracleID>
+                    <xsl:choose>
+                        <xsl:when test="exists($GetEmployeeDetails/resultSet/Record[1]/ORACLEID)">
+                            <xsl:value-of select="$GetEmployeeDetails/resultSet/Record[1]/ORACLEID"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </ProjectAssignment.OracleID>
+            </jdbcUpdateActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Map Data">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>546</pd:x>
+        <pd:y>171</pd:y>
+        <config>
+            <element ref="pfx5:Error"/>
+        </config>
+        <pd:inputBindings>
+            <xsl:choose>
+                <xsl:when test="exists($_error_GetEmployeeDetails/ActivityErrors)">
+                    <pfx5:Error>
+                        <pfx5:ErrorStatus>
+                            <xsl:value-of select="&quot;Error in fetching Employee Details&quot;"/>
+                        </pfx5:ErrorStatus>
+                        <pfx5:ErrorCode>
+                            <xsl:value-of select="$_error/ns:ErrorReport/MsgCode"/>
+                        </pfx5:ErrorCode>
+                    </pfx5:Error>
+                </xsl:when>
+                <xsl:when test="exists($_error_JDBC-Update/ActivityErrors)">
+                    <pfx5:Error>
+                        <pfx5:ErrorStatus>
+                            <xsl:value-of select="&quot;Error in deleting the Employee Details&quot;"/>
+                        </pfx5:ErrorStatus>
+                        <pfx5:ErrorCode>
+                            <xsl:value-of select="$_error/ns:ErrorReport/MsgCode"/>
+                        </pfx5:ErrorCode>
+                    </pfx5:Error>
+                </xsl:when>
+                <xsl:when test="exists($_error_FTP-Delete-File/ActivityErrors)">
+                    <pfx5:Error>
+                        <pfx5:ErrorStatus>
+                            <xsl:value-of select="&quot;Error in Deleting Financial Details&quot;"/>
+                        </pfx5:ErrorStatus>
+                        <pfx5:ErrorCode>
+                            <xsl:value-of select="$_error/ns:ErrorReport/MsgCode"/>
+                        </pfx5:ErrorCode>
+                    </pfx5:Error>
+                </xsl:when>
+                <xsl:otherwise>
+                    <pfx5:Error>
+                        <pfx5:ErrorStatus>
+                            <xsl:value-of select="$_error/ns:ErrorReport/Msg"/>
+                        </pfx5:ErrorStatus>
+                        <pfx5:ErrorCode>
+                            <xsl:value-of select="$_error/ns:ErrorReport/MsgCode"/>
+                        </pfx5:ErrorCode>
+                    </pfx5:Error>
+                </xsl:otherwise>
+            </xsl:choose>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render JSON">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>701</pd:x>
+        <pd:y>65</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor ref="pfx4:OperationResponse"/>
+        </config>
+        <pd:inputBindings>
+            <ns2:ActivityInputClass>
+                <pfx4:OperationResponse>
+                    <pfx4:StatusCode>
+                        <xsl:value-of select="&quot;Success&quot;"/>
+                    </pfx4:StatusCode>
+                    <pfx4:StatusMessage>
+                        <xsl:value-of select="&quot;Employee Details created Successfully&quot;"/>
+                    </pfx4:StatusMessage>
+                </pfx4:OperationResponse>
+            </ns2:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render-JSON-1">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>701</pd:x>
+        <pd:y>171</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor ref="pfx5:Error"/>
+        </config>
+        <pd:inputBindings>
+            <ns2:ActivityInputClass>
+                <xsl:copy-of select="$Map-Data/pfx5:Error"/>
+            </ns2:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetEmployeeDetails</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>JDBC Update</pd:from>
+        <pd:to>FTP Delete File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>FTP Delete File</pd:from>
+        <pd:to>Render JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetEmployeeDetails</pd:from>
+        <pd:to>JDBC Update</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render JSON</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Map Data</pd:from>
+        <pd:to>Render-JSON-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render-JSON-1</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

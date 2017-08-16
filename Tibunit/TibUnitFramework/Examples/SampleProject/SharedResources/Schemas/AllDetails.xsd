@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd5"
+	 targetNamespace="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd5"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="AllDetails">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Employee"/>
+				<xs:element ref="ProjectAssignment"/>
+				<xs:element ref="EmployeePersonalDetails"/>
+				<xs:element ref="Finance"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Employee">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="EmpID"/>
+				<xs:element ref="FullName"/>
+				<xs:element ref="Designation"/>
+				<xs:element ref="OracleID"/>
+				<xs:element ref="KBGID"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ProjectAssignment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Billability"/>
+				<xs:element ref="Role"/>
+				<xs:element ref="PID"/>
+				<xs:element ref="ProjectName"/>
+				<xs:element ref="PIDStartDate"/>
+				<xs:element ref="PIDEndDate"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EmployeePersonalDetails">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="FirstName"/>
+				<xs:element ref="SurName"/>
+				<xs:element ref="DOJ"/>
+				<xs:element ref="DOB"/>
+				<xs:element ref="AddLine1"/>
+				<xs:element ref="AddLine2"/>
+				<xs:element ref="City"/>
+				<xs:element ref="PIN"/>
+				<xs:element ref="State"/>
+				<xs:element ref="Country"/>
+				<xs:element ref="Spouse"/>
+				<xs:element ref="Children"/>
+				<xs:element ref="PassportDetails"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Finance">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="PAN"/>
+				<xs:element ref="PayBand"/>
+				<xs:element ref="Salary"/>
+				<xs:element ref="Allowances"/>
+				<xs:element ref="Retirals"/>
+				<xs:element ref="Bonus"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EmpID" type="xs:string"/>
+	<xs:element name="FullName" type="xs:string"/>
+	<xs:element name="Designation" type="xs:string"/>
+	<xs:element name="OracleID" type="xs:string"/>
+	<xs:element name="KBGID" type="xs:string"/>
+	<xs:element name="Billability" type="xs:string"/>
+	<xs:element name="Role" type="xs:string"/>
+	<xs:element name="PID" type="xs:string"/>
+	<xs:element name="ProjectName" type="xs:string"/>
+	<xs:element name="PIDStartDate" type="xs:string"/>
+	<xs:element name="PIDEndDate" type="xs:string"/>
+	<xs:element name="FirstName" type="xs:string"/>
+	<xs:element name="SurName" type="xs:string"/>
+	<xs:element name="DOJ" type="xs:string"/>
+	<xs:element name="DOB" type="xs:string"/>
+	<xs:element name="AddLine1" type="xs:string"/>
+	<xs:element name="AddLine2" type="xs:string"/>
+	<xs:element name="City" type="xs:string"/>
+	<xs:element name="PIN" type="xs:string"/>
+	<xs:element name="State" type="xs:string"/>
+	<xs:element name="Country" type="xs:string"/>
+	<xs:element name="Spouse" type="xs:string"/>
+	<xs:element name="Children" type="xs:string"/>
+	<xs:element name="PassportDetails" type="xs:string"/>
+	<xs:element name="PAN" type="xs:string"/>
+	<xs:element name="PayBand" type="xs:string"/>
+	<xs:element name="Salary" type="xs:string"/>
+	<xs:element name="Allowances" type="xs:string"/>
+	<xs:element name="Retirals" type="xs:string"/>
+	<xs:element name="Bonus" type="xs:string"/>
+</xs:schema>

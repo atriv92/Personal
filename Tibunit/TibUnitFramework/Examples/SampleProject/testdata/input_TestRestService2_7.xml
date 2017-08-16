@@ -1,0 +1,4 @@
+<root>
+	<method>/updateProject</method>
+	<querystring>OracleID=116487&amp;Billability=true&amp;Role=developer&amp;Designation=Junior Associate&amp;PID=12345&amp;ProjectName=tui&amp;PIDStartDate=2015-09-15&amp;PIDEndDate=2016-03-10</querystring>
+</root>

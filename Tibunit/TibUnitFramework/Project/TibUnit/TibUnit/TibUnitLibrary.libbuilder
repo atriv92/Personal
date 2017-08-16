@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
+    <name name="TibUnitLibrary">
+        <version>42</version>
+        <author>Sapient</author>
+        <fileLocation>c:\TIBUnit_v1.3_23022016.projlib</fileLocation>
+        <resources>/TibUnit/Assert.process,/TibUnit/CallUnitTest.process,/TibUnit/CodeCoverageReport.process,/TibUnit/CurrentFileNames.jobsharedvariable,/TibUnit/GenerateReport.process,/TibUnit/GetResults.process,/TibUnit/GetResultsSubProcess.process,/TibUnit/GetTestsToRun.process,/TibUnit/HTTP Connection.sharedhttp,/TibUnit/InitResultXML_OnStartUp.process,/TibUnit/ResultXML.sharedvariable,/TibUnit/RunTests.process,/TibUnit/SampleTest.process,/TibUnit/Schema.xsd,/TibUnit/TestSuite.process,/TibUnit/TestSuiteWithoutShutdown.process</resources>
+    </name>
+</Repository:repository>

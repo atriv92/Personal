@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd">
+    <xsd:import namespace="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd" schemaLocation="/SharedResources/Schemas/ProjectAssignment.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" schemaLocation="/SharedResources/Schemas/ErrorSchema.xsd"/>
+    <pd:name>REST/EmployeeInfoPortal/RestMethodBindings/GetAssignmentDetails.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="OracleID" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>202</pd:startX>
+    <pd:startY>61</pd:startY>
+    <pd:returnBindings>
+        <xsl:choose>
+            <xsl:when test="exists($_error/ns:ErrorReport/MsgCode)">
+                <Response>
+                    <JsonString>
+                        <xsl:value-of select="$Render-JSON-1/ns1:ActivityOutputClass/jsonString"/>
+                    </JsonString>
+                </Response>
+            </xsl:when>
+            <xsl:otherwise>
+                <Response>
+                    <JsonString>
+                        <xsl:value-of select="$Render-JSON/ns1:ActivityOutputClass/jsonString"/>
+                    </JsonString>
+                </Response>
+            </xsl:otherwise>
+        </xsl:choose>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="Response">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="JsonString" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>675</pd:endX>
+    <pd:endY>108</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1453379536678</pd:targetNamespace>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>277</pd:x>
+        <pd:y>167</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="JDBC Query">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>332</pd:x>
+        <pd:y>61</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <statement>SELECT * FROM PROJECTASSIGNMENT WHERE ORACLEID = ?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>OracleID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <jdbcSharedConfig>/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <oraObjects/>
+            <oraTables/>
+            <QueryOutputCachedSchemaColumns>ORACLEID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>BILLABILITY</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>ROLE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>DESIGNATION</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>PID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>PROJECTNAME</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>PIDSTARTDATE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>93</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>DATE</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>PIDENDDATE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>93</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>DATE</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput>
+                <OracleID>
+                    <xsl:value-of select="$Start/root/OracleID"/>
+                </OracleID>
+            </jdbcQueryActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Map Data">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>442</pd:x>
+        <pd:y>61</pd:y>
+        <config>
+            <element ref="pfx:ProjectAssignment"/>
+        </config>
+        <pd:inputBindings>
+            <pfx:ProjectAssignment>
+                <pfx:OracleID>
+                    <xsl:value-of select="$JDBC-Query/resultSet/Record[1]/ORACLEID"/>
+                </pfx:OracleID>
+                <pfx:Bllability>
+                    <xsl:value-of select="$JDBC-Query/resultSet/Record[1]/BILLABILITY"/>
+                </pfx:Bllability>
+                <pfx:Role>
+                    <xsl:value-of select="$JDBC-Query/resultSet/Record[1]/ROLE"/>
+                </pfx:Role>
+                <pfx:Designation>
+                    <xsl:value-of select="$JDBC-Query/resultSet/Record[1]/DESIGNATION"/>
+                </pfx:Designation>
+                <pfx:PID>
+                    <xsl:value-of select="$JDBC-Query/resultSet/Record[1]/PID"/>
+                </pfx:PID>
+                <pfx:ProjectName>
+                    <xsl:value-of select="$JDBC-Query/resultSet/Record[1]/PROJECTNAME"/>
+                </pfx:ProjectName>
+                <pfx:PIDStartDate>
+                    <xsl:value-of select="substring-before($JDBC-Query/resultSet/Record[1]/PIDSTARTDATE, &quot;T&quot;)"/>
+                </pfx:PIDStartDate>
+                <pfx:PIDEndDate>
+                    <xsl:value-of select="substring-before($JDBC-Query/resultSet/Record[1]/PIDENDDATE, &quot;T&quot;)"/>
+                </pfx:PIDEndDate>
+            </pfx:ProjectAssignment>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Map-Data-1">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>394</pd:x>
+        <pd:y>167</pd:y>
+        <config>
+            <element ref="pfx2:Error"/>
+        </config>
+        <pd:inputBindings>
+            <xsl:choose>
+                <xsl:when test="exists($_error_JDBC-Query/ActivityErrors)">
+                    <pfx2:Error>
+                        <pfx2:ErrorStatus>
+                            <xsl:value-of select="&quot;Error in Fetching Employee Project Assignment Details&quot;"/>
+                        </pfx2:ErrorStatus>
+                        <pfx2:ErrorCode>
+                            <xsl:value-of select="$_error/ns:ErrorReport/MsgCode"/>
+                        </pfx2:ErrorCode>
+                    </pfx2:Error>
+                </xsl:when>
+                <xsl:otherwise>
+                    <pfx2:Error>
+                        <pfx2:ErrorStatus>
+                            <xsl:value-of select="$_error/ns:ErrorReport/Msg"/>
+                        </pfx2:ErrorStatus>
+                        <pfx2:ErrorCode>
+                            <xsl:value-of select="$_error/ns:ErrorReport/MsgCode"/>
+                        </pfx2:ErrorCode>
+                    </pfx2:Error>
+                </xsl:otherwise>
+            </xsl:choose>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render JSON">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>546</pd:x>
+        <pd:y>61</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor ref="pfx:ProjectAssignment"/>
+        </config>
+        <pd:inputBindings>
+            <ns1:ActivityInputClass>
+                <xsl:copy-of select="$Map-Data/pfx:ProjectAssignment"/>
+            </ns1:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render-JSON-1">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>549</pd:x>
+        <pd:y>167</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor ref="pfx2:Error"/>
+        </config>
+        <pd:inputBindings>
+            <ns1:ActivityInputClass>
+                <xsl:copy-of select="$Map-Data-1/pfx2:Error"/>
+            </ns1:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>JDBC Query</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>JDBC Query</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Map Data</pd:from>
+        <pd:to>Render JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render JSON</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>Map-Data-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Map-Data-1</pd:from>
+        <pd:to>Render-JSON-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render-JSON-1</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

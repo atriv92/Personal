@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.tibco.com/schemas/TibUnit/Schema.xsd"
+	 targetNamespace="http://www.tibco.com/schemas/TibUnit/Schema.xsd"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="AssertType">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="ASSERT_EQUAL"/>
+				<xs:enumeration value="ASSERT_NOT_EXISTS"/>
+				<xs:enumeration value="ASSERT_NOT_EQUAL"/>
+				<xs:enumeration value="ASSERT_GREATER_THAN"/>
+				<xs:enumeration value="ASSERT_LESS_THAN"/>
+				<xs:enumeration value="ASSERT_GREATER_THAN_EQUAL"/>
+				<xs:enumeration value="ASSERT_LESS_THAN_EQUAL"/>
+				<xs:enumeration value="ASSERT_STRING_CONTAINS"/>
+				<xs:enumeration value="ASSERT_EXISTS"/>
+				<xs:enumeration value="ASSERT_EXCEPTION"/>
+				<xs:enumeration value="ASSERT_STRING_NOT_CONTAINS"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="TibUnitTest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="processId" type="xs:string"/>
+				<xs:element name="category" type="xs:string" minOccurs="0"/>
+				<xs:element name="name" type="xs:string"/>
+				<xs:element name="result" type="xs:boolean"/>
+				<xs:element name="timestamp" type="xs:dateTime"/>
+				<xs:element name="messageCode" type="xs:string" minOccurs="0"/>
+				<xs:element name="message" type="xs:string" minOccurs="0"/>
+				<xs:element name="inputFileName" type="xs:string" minOccurs="0"/>
+				<xs:element name="outputFileName" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TibUnitTestResult">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="TibUnitTest" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="engineName" type="xs:string" use="required"/>
+			<xs:attribute name="startTime" type="xs:dateTime" use="required"/>
+			<xs:attribute name="endTime" type="xs:dateTime"/>
+			<xs:attribute name="passCount" type="xs:int"/>
+			<xs:attribute name="failCount" type="xs:int"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

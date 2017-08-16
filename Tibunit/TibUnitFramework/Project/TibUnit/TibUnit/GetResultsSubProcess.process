@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/schemas/TibUnit/Schema.xsd" xmlns:ns3="http://xmlns.tibco.com/encodings/mime" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions">
+    <pd:name>TibUnit/GetResultsSubProcess.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startX>138</pd:startX>
+    <pd:startY>154</pd:startY>
+    <pd:returnBindings>
+        <root>
+            <response>
+                <xsl:value-of select="concat('&lt;html>',&#xA;tib:render-xml($Map-Data/html/body, true()),&#xA;'&lt;script>',&#xA;$Map-Data/html/script[1],&#xA;'&lt;/script>&lt;/html>')"/>
+            </response>
+        </root>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="response" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>685</pd:endX>
+    <pd:endY>155</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1450178757766</pd:targetNamespace>
+    <pd:activity name="GetVariable">
+        <pd:type>com.tibco.pe.core.GetSharedVariableActivity</pd:type>
+        <pd:resourceType>ae.activities.getSharedVariable</pd:resourceType>
+        <pd:x>137</pd:x>
+        <pd:y>47</pd:y>
+        <config>
+            <variableConfig>/TibUnit/ResultXML.sharedvariable</variableConfig>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Map Data">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>532</pd:x>
+        <pd:y>153</pd:y>
+        <config>
+            <element>
+                <xsd:element name="html">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="head" minOccurs="0">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="script" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="body">
+                                <xsd:complexType>
+                                    <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                                        <xsd:element name="table" minOccurs="0" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="tr" minOccurs="0" maxOccurs="unbounded">
+                                                        <xsd:complexType>
+                                                            <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                                                                <xsd:element name="th" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                                                                <xsd:element name="td" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                                                            </xsd:choice>
+                                                        </xsd:complexType>
+                                                    </xsd:element>
+                                                </xsd:sequence>
+                                                <xsd:attribute name="style" type="xsd:string"/>
+                                                <xsd:attribute name="border" type="xsd:string"/>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                        <xsd:element name="div" minOccurs="0" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:sequence/>
+                                                <xsd:attribute name="style" type="xsd:string" use="required"/>
+                                                <xsd:attribute name="id" type="xsd:string" use="required"/>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                        <xsd:element name="canvas" minOccurs="0" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:sequence/>
+                                                <xsd:attribute name="id" type="xsd:string" use="required"/>
+                                                <xsd:attribute name="width" type="xsd:string"/>
+                                                <xsd:attribute name="height" type="xsd:string"/>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                        <xsd:element name="br" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                                        <xsd:element name="script" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                                        <xsd:element name="h3" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                                        <xsd:element name="h2" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                                    </xsd:choice>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="script" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <html>
+                <head/>
+                <body>
+                    <h2>
+                        <xsl:value-of select="'TibUnit Test Run Report'"/>
+                    </h2>
+                    <table>
+                        <xsl:attribute name="border">
+                            <xsl:value-of select="'1'"/>
+                        </xsl:attribute>
+                        <xsl:attribute name="style">
+                            <xsl:value-of select="'border-collapse: collapse; border: 1px solid black;'"/>
+                        </xsl:attribute>
+                        <tr>
+                            <th>
+                                <xsl:value-of select="'Engine Name'"/>
+                            </th>
+                            <th>
+                                <xsl:value-of select="'Start Time'"/>
+                            </th>
+                            <th>
+                                <xsl:value-of select="'Pass Count'"/>
+                            </th>
+                            <th>
+                                <xsl:value-of select="'Fail Count'"/>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <xsl:value-of select="$GetVariable/ns:TibUnitTestResult/@engineName"/>
+                            </td>
+                            <td>
+                                <xsl:value-of select="$GetVariable/ns:TibUnitTestResult/@startTime"/>
+                            </td>
+                            <td>
+                                <xsl:value-of select="$GetVariable/ns:TibUnitTestResult/@passCount"/>
+                            </td>
+                            <td>
+                                <xsl:value-of select="$GetVariable/ns:TibUnitTestResult/@failCount"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                        <xsl:value-of select="''"/>
+                    </br>
+                    <table>
+                        <xsl:attribute name="border">
+                            <xsl:value-of select="'1'"/>
+                        </xsl:attribute>
+                        <xsl:attribute name="style">
+                            <xsl:value-of select="'border-collapse: collapse; border: 1px solid black;'"/>
+                        </xsl:attribute>
+                        <tr>
+                            <th>
+                                <xsl:value-of select="'Process ID'"/>
+                            </th>
+                            <th>
+                                <xsl:value-of select="'Category'"/>
+                            </th>
+                            <th>
+                                <xsl:value-of select="'Test Name'"/>
+                            </th>
+                            <th>
+                                <xsl:value-of select="'Result'"/>
+                            </th>
+                            <th>
+                                <xsl:value-of select="'Timestamp'"/>
+                            </th>
+                            <th>
+                                <xsl:value-of select="'Message Code'"/>
+                            </th>
+                            <th>
+                                <xsl:value-of select="'Message'"/>
+                            </th>
+                            <th>
+                                <xsl:value-of select="'Input File Name'"/>
+                            </th>
+                            <th>
+                                <xsl:value-of select="'Output File Name'"/>
+                            </th>
+                        </tr>
+                        <xsl:for-each select="$GetVariable/ns:TibUnitTestResult/ns:TibUnitTest">
+                            <tr>
+                                <td>
+                                    <xsl:value-of select="current()/ns:processId"/>
+                                </td>
+                                <td>
+                                    <xsl:value-of select="current()/ns:category"/>
+                                </td>
+                                <td>
+                                    <xsl:value-of select="current()/ns:name"/>
+                                </td>
+                                <td>
+                                    <xsl:value-of select="current()/ns:result"/>
+                                </td>
+                                <td>
+                                    <xsl:value-of select="current()/ns:timestamp"/>
+                                </td>
+                                <td>
+                                    <xsl:value-of select="current()/ns:messageCode"/>
+                                </td>
+                                <td>
+                                    <xsl:value-of select="current()/ns:message"/>
+                                </td>
+                                <td>
+                                    <xsl:value-of select="current()/ns:inputFileName"/>
+                                </td>
+                                <td>
+                                    <xsl:value-of select="current()/ns:outputFileName"/>
+                                </td>
+                            </tr>
+                        </xsl:for-each>
+                    </table>
+                    <br>
+                        <xsl:value-of select="''"/>
+                    </br>
+                    <h3>
+                        <xsl:value-of select="'TibUnit Code Coverage Report'"/>
+                    </h3>
+                    <table>
+                        <xsl:attribute name="border">
+                            <xsl:value-of select="'1'"/>
+                        </xsl:attribute>
+                        <xsl:attribute name="style">
+                            <xsl:value-of select="'border-collapse: collapse; border: 1px solid black;'"/>
+                        </xsl:attribute>
+                        <tr>
+                            <th>
+                                <xsl:value-of select="'Total Number of Processes'"/>
+                            </th>
+                            <th>
+                                <xsl:value-of select="'Total Processes Executed'"/>
+                            </th>
+                            <th>
+                                <xsl:value-of select="'Code Coverage Percentage'"/>
+                            </th>
+                        </tr>
+                        <tr>
+                            <xsl:variable name="var" select="count($CodeCoverageReport/processes/process)"/>
+                            <xsl:variable name="var2" select="count($CodeCoverageReport/processes/process[createdCount > 0])"/>
+                            <td>
+                                <xsl:value-of select="$var"/>
+                            </td>
+                            <td>
+                                <xsl:value-of select="$var2"/>
+                            </td>
+                            <td>
+                                <xsl:value-of select="($var2 div $var ) * 100"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                        <xsl:value-of select="''"/>
+                    </br>
+                    <table>
+                        <xsl:attribute name="border">
+                            <xsl:value-of select="'1'"/>
+                        </xsl:attribute>
+                        <xsl:attribute name="style">
+                            <xsl:value-of select="'border-collapse: collapse; border: 1px solid black;'"/>
+                        </xsl:attribute>
+                        <tr>
+                            <th>
+                                <xsl:value-of select="'Process Name'"/>
+                            </th>
+                            <th>
+                                <xsl:value-of select="'Total Execution Count'"/>
+                            </th>
+                            <th>
+                                <xsl:value-of select="'Failure Count'"/>
+                            </th>
+                        </tr>
+                        <xsl:for-each select="$CodeCoverageReport/processes/process">
+                            <tr>
+                                <td>
+                                    <xsl:value-of select="processName"/>
+                                </td>
+                                <td>
+                                    <xsl:value-of select="createdCount"/>
+                                </td>
+                                <td>
+                                    <xsl:value-of select="errorCount"/>
+                                </td>
+                            </tr>
+                        </xsl:for-each>
+                    </table>
+                    <br>
+                        <xsl:value-of select="''"/>
+                    </br>
+                    <h3>
+                        <xsl:value-of select="'TibUnit Pass/Fail Count Chart - Category Wise'"/>
+                    </h3>
+                    <canvas>
+                        <xsl:attribute name="id">
+                            <xsl:value-of select="'canvas'"/>
+                        </xsl:attribute>
+                    </canvas>
+                    <script>
+                        <xsl:value-of select="concat(&#xA;'var series = [',  tib:concat-sequence-format($PassFailDataSeries/root/series,','),&#xA; ']; ' ,&#xA;$PassFailDataSeries/root/pass/startString, &#xA;tib:concat-sequence-format($PassFailDataSeries/root/pass/dataPoints, ','),&#xA;$PassFailDataSeries/root/pass/endString,&#xA;$PassFailDataSeries/root/fail/startString,&#xA;tib:concat-sequence-format($PassFailDataSeries/root/fail/dataPoints, ','),&#xA;$PassFailDataSeries/root/fail/endString&#xA;)"/>
+                    </script>
+                </body>
+                <script>
+                    <xsl:value-of select="concat(&#xA;'&#x9;&#x9;plotData(); ',&#xA;'&#x9;&#x9; ',&#xA;'&#x9;&#x9;function plotData() { ',&#xA;'&#x9;&#x9;&#x9;var canvas=document.getElementById(&quot;canvas&quot;); &#x9; ',&#xA;'&#x9;&#x9;&#x9;var ctx=canvas.getContext(&quot;2d&quot;); ',&#xA;'&#x9;&#x9;&#x9;canvas.height=(series.length * 30)+ 100 ; ',&#xA;'&#x9;&#x9;&#x9;canvas.width=600; ',&#xA;'&#x9;&#x9;&#x9;var maxPass=Math.max.apply(Math,dataPass); ',&#xA;'&#x9;&#x9;&#x9;var maxFail=Math.max.apply(Math,dataFail); ',&#xA;'&#x9;&#x9;&#x9;var maxArray=[maxPass, maxFail]; ',&#xA;'&#x9;&#x9;&#x9;var max=Math.max.apply(Math,maxArray); ',&#xA;'&#x9;&#x9;&#x9;var canvasWidth=canvas.width; ',&#xA;'&#x9;&#x9;&#x9;var canvasHeight=canvas.height; ',&#xA;'&#x9;&#x9;&#x9;ctx.clearRect(0, 0, canvasWidth, canvasHeight); ',&#xA;'&#x9;&#x9;&#x9;var xAxisStart=100; ',&#xA;'&#x9;&#x9;&#x9;var yAxisStart=50; ',&#xA;'&#x9;&#x9;&#x9;var xAxisEnd=canvas.width -20; ',&#xA;'&#x9;&#x9;&#x9;var yAxisEnd=canvas.height; ',&#xA;'&#x9;&#x9;&#x9;{ &#x9; ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.fillStyle = &quot;blue&quot;; ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.lineWidth = &quot;2.0&quot;; ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.beginPath(); ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.moveTo(xAxisStart, yAxisStart); ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.lineTo(xAxisEnd, yAxisStart); ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.closePath(); ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.stroke(); ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.beginPath(); ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.moveTo(xAxisStart, yAxisStart); ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.lineTo(xAxisStart, yAxisEnd); ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.closePath(); ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.stroke(); ',&#xA;'&#x9;&#x9;&#x9;} ',&#xA;'&#x9;&#x9;&#x9;{&#x9; ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.fillStyle = &quot;green&quot;;&#x9; ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.fillRect(5, 5, 10, 10); ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.textAlign = &quot;start&quot;; ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.fillStyle = &quot;green&quot;; ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.fillText(&quot;Pass&quot;, 20, 15); ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.fillStyle = &quot;red&quot;;&#x9; ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.fillRect(5, 15, 10, 10); ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.textAlign = &quot;start&quot;; ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.fillStyle = &quot;red&quot;; ',&#xA;'&#x9;&#x9;&#x9;&#x9;ctx.fillText(&quot;Fail&quot;, 20, 25); ',&#xA;'&#x9;&#x9;&#x9;&#x9; ',&#xA;'&#x9;&#x9;&#x9;} ',&#xA;'&#x9;&#x9;&#x9;{ ',&#xA;'&#x9;&#x9;&#x9;&#x9;var tickerX=xAxisStart; ',&#xA;'&#x9;&#x9;&#x9;&#x9;var tickerY=yAxisStart; ',&#xA;'&#x9;&#x9;&#x9;&#x9;var tickerSpace= (xAxisEnd-xAxisStart ) / max; ',&#xA;'&#x9;&#x9;&#x9;&#x9;if(tickerSpace &lt; 20) tickerSpace=20; ',&#xA;'&#x9;&#x9;&#x9;&#x9;var tickerCount = (xAxisEnd-xAxisStart) / tickerSpace ; ',&#xA;'&#x9;&#x9;&#x9;&#x9;var tickerUnitSize= max/tickerCount ; ',&#xA;'&#x9;&#x9;&#x9;&#x9;for(var i=1 ; i&lt;=tickerCount ; i++){ ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;var x = tickerX + (i*tickerSpace); ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;if( x > canvasWidth) break; ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ctx.beginPath(); ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ctx.moveTo(x, tickerY-5); ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ctx.lineTo(x, tickerY); ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ctx.closePath(); ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ctx.stroke(); ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ctx.textAlign = &quot;left&quot;; ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ctx.fillStyle = &quot;blue&quot;; ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ctx.fillText(Math.round(( tickerUnitSize * i )), x-5 , tickerY-10); ',&#xA;'&#x9;&#x9;&#x9;&#x9;} ',&#xA;'&#x9;&#x9;&#x9;&#x9;var xpos=xAxisStart + 1; ',&#xA;'&#x9;&#x9;&#x9;&#x9;var ypos=yAxisStart + 5; ',&#xA;'&#x9;&#x9;&#x9;&#x9;var seriesBarGap=10; ',&#xA;'&#x9;&#x9;&#x9;&#x9;var barHeight=10; ',&#xA;'&#x9;&#x9;&#x9;&#x9;for (var i = 0; i &lt; series.length; i++) { &#x9;&#x9; ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ctx.textAlign = &quot;end&quot;; ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ctx.fillStyle = &quot;blue&quot;; ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ctx.fillText(series[i], xpos-10, ypos+10); ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ctx.fillStyle = &quot;green&quot;;&#x9; ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ctx.fillRect(xpos , ypos , dataPass[i] * tickerSpace/tickerUnitSize  , barHeight); ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ypos +=barHeight; ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ctx.fillStyle = &quot;red&quot;;&#x9; ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ctx.fillRect(xpos, ypos , dataFail[i] * tickerSpace/tickerUnitSize  , barHeight); ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ypos +=barHeight; ',&#xA;'&#x9;&#x9;&#x9;&#x9;&#x9;ypos += seriesBarGap; ',&#xA;'&#x9;&#x9;&#x9;&#x9;}  ',&#xA;'&#x9;&#x9;&#x9;} ',&#xA;'&#x9;&#x9;}'&#xA;)"/>
+                </script>
+            </html>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="CategroyWiseCount">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>378</pd:x>
+        <pd:y>46</pd:y>
+        <config>
+            <element>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="result" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="category" type="xsd:string"/>
+                                        <xsd:element name="passCount" type="xsd:string"/>
+                                        <xsd:element name="failCount" type="xsd:string"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <xsl:for-each select="$Categories/root/category">
+                    <result>
+                        <category>
+                            <xsl:value-of select="."/>
+                        </category>
+                        <passCount>
+                            <xsl:value-of select="count($GetVariable/ns:TibUnitTestResult/ns:TibUnitTest[ ns:category =current()   and ns:result='true'])"/>
+                        </passCount>
+                        <failCount>
+                            <xsl:value-of select="count($GetVariable/ns:TibUnitTestResult/ns:TibUnitTest[ ns:category =current() and ns:result='false'])"/>
+                        </failCount>
+                    </result>
+                </xsl:for-each>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="PassFailDataSeries">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>530</pd:x>
+        <pd:y>45</pd:y>
+        <config>
+            <element>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="pass">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="startString" type="xsd:string"/>
+                                        <xsd:element name="dataPoints" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                                        <xsd:element name="endString" type="xsd:string"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="fail">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="startString" type="xsd:string"/>
+                                        <xsd:element name="dataPoints" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                                        <xsd:element name="endString" type="xsd:string"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="series" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <pass>
+                    <startString>
+                        <xsl:value-of select="'&#x9;var dataPass = ['"/>
+                    </startString>
+                    <xsl:for-each select="$CategroyWiseCount/root/result">
+                        <dataPoints>
+                            <xsl:value-of select="current()/passCount"/>
+                        </dataPoints>
+                    </xsl:for-each>
+                    <endString>
+                        <xsl:value-of select="'];'"/>
+                    </endString>
+                </pass>
+                <fail>
+                    <startString>
+                        <xsl:value-of select="'var dataFail = ['"/>
+                    </startString>
+                    <xsl:for-each select="$CategroyWiseCount/root/result">
+                        <dataPoints>
+                            <xsl:value-of select="current()/failCount"/>
+                        </dataPoints>
+                    </xsl:for-each>
+                    <endString>
+                        <xsl:value-of select="'];'"/>
+                    </endString>
+                </fail>
+                <xsl:for-each select="$CategroyWiseCount/root/result">
+                    <series>
+                        <xsl:value-of select="concat('&quot;',current()/category,'&quot;')"/>
+                    </series>
+                </xsl:for-each>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Categories">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>244</pd:x>
+        <pd:y>48</pd:y>
+        <config>
+            <element>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="category" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <xsl:for-each-group select="$GetVariable/ns:TibUnitTestResult/ns:TibUnitTest" group-by="ns:category">
+                    <xsl:if test="ns:category">
+                        <category>
+                            <xsl:value-of select="ns:category"/>
+                        </category>
+                    </xsl:if>
+                </xsl:for-each-group>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="CodeCoverageReport">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>315</pd:x>
+        <pd:y>152</pd:y>
+        <config>
+            <processName>/TibUnit/CodeCoverageReport.process</processName>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Map Data</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetVariable</pd:from>
+        <pd:to>Categories</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CategroyWiseCount</pd:from>
+        <pd:to>PassFailDataSeries</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>PassFailDataSeries</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Categories</pd:from>
+        <pd:to>CategroyWiseCount</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetVariable</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>CodeCoverageReport</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CodeCoverageReport</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

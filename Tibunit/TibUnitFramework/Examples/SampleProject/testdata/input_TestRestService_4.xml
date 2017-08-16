@@ -1,0 +1,4 @@
+<root>
+	<method>/updatePersonal</method>
+	<querystring>EmpID=abane6&amp;FirstName=Abhishek&amp;SurName=Banerjee&amp;DOJ=2015-15-09&amp;DOB=19992-11-11&amp;AddLine1=BS-103&amp;AddLine2=Sector-70&amp;City=Noida&amp;PIN=201301&amp;State=UP&amp;Country=India&amp;Spouse=N/A&amp;Childrern=N/A&amp;PassportDetails=pass001</querystring>
+</root>

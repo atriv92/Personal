@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns0="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx4="http://www.tibco.com/schemas/TibUnit/Schema.xsd" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.tibco.com/namespaces/tnt/plugins/file">
+    <xsd:import namespace="http://www.tibco.com/schemas/TibUnit/Schema.xsd" schemaLocation="/TibUnit/Schema.xsd"/>
+    <pd:name>TibUnit/CallUnitTest.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="processFileName" type="xsd:string"/>
+                    <xsd:element name="parentFolder" type="xsd:string"/>
+                    <xsd:element name="completeProcessName" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>50</pd:startX>
+    <pd:startY>45</pd:startY>
+    <pd:returnBindings>
+        <xsl:for-each select="$MapInputFiles/html">
+            <html>
+                <xsl:for-each select="body">
+                    <body>
+                        <xsl:for-each select="table">
+                            <table>
+                                <xsl:attribute name="border">
+                                    <xsl:value-of select="'1'"/>
+                                </xsl:attribute>
+                                <xsl:for-each select="tr">
+                                    <tr>
+                                        <xsl:for-each select="td">
+                                            <td>
+                                                <xsl:value-of select="."/>
+                                            </td>
+                                        </xsl:for-each>
+                                    </tr>
+                                </xsl:for-each>
+                            </table>
+                        </xsl:for-each>
+                    </body>
+                </xsl:for-each>
+            </html>
+        </xsl:for-each>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endX>760</pd:endX>
+    <pd:endY>179</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1451903217913</pd:targetNamespace>
+    <pd:group name="LoopInputFiles">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>123</pd:x>
+        <pd:y>12</pd:y>
+        <pd:width>552</pd:width>
+        <pd:height>337</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>inputLoop</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:over>$MapInputFiles/files/testDataFiles</pd:over>
+            <pd:iterationElementSlot>file</pd:iterationElementSlot>
+            <pd:indexSlot>f</pd:indexSlot>
+            <pd:activityOutputName/>
+            <pd:accumulateOutput>false</pd:accumulateOutput>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>ReadInputFile</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>UnitTestProcess</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>SetVariable</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>ReadInputFile</pd:from>
+            <pd:to>ReadOutPutFile</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>ReadOutPutFile</pd:from>
+            <pd:to>Null</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-65536</pd:lineColor>
+            <pd:conditionType>error</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Catch</pd:from>
+            <pd:to>Log</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Log</pd:from>
+            <pd:to>Map-Result</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Map-Result</pd:from>
+            <pd:to>GetVariable</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>GetVariable</pd:from>
+            <pd:to>SetVariable</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>SetFileNames</pd:from>
+            <pd:to>UnitTestProcess</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>ReadOutPutFile</pd:from>
+            <pd:to>SetFileNames</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Null</pd:from>
+            <pd:to>SetFileNames</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>ReadInputFile</pd:from>
+            <pd:to>Null-1</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-65536</pd:lineColor>
+            <pd:conditionType>error</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Null-1</pd:from>
+            <pd:to>ReadOutPutFile</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="UnitTestProcess">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>560</pd:x>
+            <pd:y>89</pd:y>
+            <config>
+                <processName>/TibUnit/SampleTest.process</processName>
+                <processNameXPath>$Start/root/completeProcessName</processNameXPath>
+            </config>
+            <pd:inputBindings>
+                <root>
+                    <input>
+                        <xsl:value-of select="$ReadInputFile/pfx:ReadActivityOutputTextClass/fileContent/textContent"/>
+                    </input>
+                    <output>
+                        <xsl:value-of select="$ReadOutPutFile/pfx:ReadActivityOutputTextClass/fileContent/textContent"/>
+                    </output>
+                    <TibUnit>
+                        <processFileName>
+                            <xsl:value-of select="$Start/root/processFileName"/>
+                        </processFileName>
+                        <parentFolder>
+                            <xsl:value-of select="$Start/root/parentFolder"/>
+                        </parentFolder>
+                        <completeProcessName>
+                            <xsl:value-of select="$Start/root/completeProcessName"/>
+                        </completeProcessName>
+                    </TibUnit>
+                </root>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="ReadInputFile">
+            <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+            <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+            <pd:x>209</pd:x>
+            <pd:y>86</pd:y>
+            <config>
+                <encoding>text</encoding>
+            </config>
+            <pd:inputBindings>
+                <ns0:ReadActivityInputClass>
+                    <fileName>
+                        <xsl:value-of select="$file/testDataFiles/inputFileFullPathName"/>
+                    </fileName>
+                </ns0:ReadActivityInputClass>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="ReadOutPutFile">
+            <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+            <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+            <pd:x>329</pd:x>
+            <pd:y>86</pd:y>
+            <config>
+                <encoding>text</encoding>
+            </config>
+            <pd:inputBindings>
+                <ns0:ReadActivityInputClass>
+                    <fileName>
+                        <xsl:value-of select="$file/testDataFiles/outputFileFullPathName"/>
+                    </fileName>
+                </ns0:ReadActivityInputClass>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Null">
+            <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
+            <pd:resourceType>ae.activities.null</pd:resourceType>
+            <pd:x>327</pd:x>
+            <pd:y>181</pd:y>
+            <config/>
+            <pd:inputBindings/>
+        </pd:activity>
+        <pd:activity name="Catch">
+            <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+            <pd:resourceType>ae.activities.catch</pd:resourceType>
+            <pd:x>185</pd:x>
+            <pd:y>274</pd:y>
+            <pd:handler>true</pd:handler>
+            <config>
+                <catchAll>true</catchAll>
+            </config>
+            <pd:inputBindings/>
+        </pd:activity>
+        <pd:activity name="Log">
+            <pd:type>com.tibco.pe.core.WriteToLogActivity</pd:type>
+            <pd:resourceType>ae.activities.log</pd:resourceType>
+            <pd:x>278</pd:x>
+            <pd:y>274</pd:y>
+            <config>
+                <role>Error</role>
+            </config>
+            <pd:inputBindings>
+                <ns2:ActivityInput>
+                    <message>
+                        <xsl:value-of select="tib:render-xml($_error/ns1:ErrorReport)"/>
+                    </message>
+                    <xsl:if test="$_error/ns1:ErrorReport/MsgCode">
+                        <msgCode>
+                            <xsl:value-of select="$_error/ns1:ErrorReport/MsgCode"/>
+                        </msgCode>
+                    </xsl:if>
+                </ns2:ActivityInput>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="GetVariable">
+            <pd:type>com.tibco.pe.core.GetSharedVariableActivity</pd:type>
+            <pd:resourceType>ae.activities.getSharedVariable</pd:resourceType>
+            <pd:x>490</pd:x>
+            <pd:y>275</pd:y>
+            <config>
+                <variableConfig>/TibUnit/ResultXML.sharedvariable</variableConfig>
+            </config>
+            <pd:inputBindings/>
+        </pd:activity>
+        <pd:activity name="Map-Result">
+            <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+            <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:x>367</pd:x>
+            <pd:y>274</pd:y>
+            <config>
+                <element ref="pfx4:TibUnitTest"/>
+            </config>
+            <pd:inputBindings>
+                <pfx4:TibUnitTest>
+                    <pfx4:processId>
+                        <xsl:value-of select="$_processContext/ns1:ProcessContext/ProcessId"/>
+                    </pfx4:processId>
+                    <pfx4:category>
+                        <xsl:value-of select="$Start/root/parentFolder"/>
+                    </pfx4:category>
+                    <pfx4:name>
+                        <xsl:value-of select="$Start/root/processFileName"/>
+                    </pfx4:name>
+                    <pfx4:result>
+                        <xsl:value-of select="false()"/>
+                    </pfx4:result>
+                    <pfx4:timestamp>
+                        <xsl:value-of select="current-dateTime()"/>
+                    </pfx4:timestamp>
+                    <pfx4:messageCode>
+                        <xsl:value-of select="$_error/ns1:ErrorReport/MsgCode"/>
+                    </pfx4:messageCode>
+                    <xsl:if test="$_error/ns1:ErrorReport/Msg">
+                        <pfx4:message>
+                            <xsl:value-of select="$_error/ns1:ErrorReport/Msg"/>
+                        </pfx4:message>
+                    </xsl:if>
+                </pfx4:TibUnitTest>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="SetVariable">
+            <pd:type>com.tibco.pe.core.SetSharedVariableActivity</pd:type>
+            <pd:resourceType>ae.activities.setSharedVariable</pd:resourceType>
+            <pd:x>598</pd:x>
+            <pd:y>276</pd:y>
+            <config>
+                <variableConfig>/TibUnit/ResultXML.sharedvariable</variableConfig>
+                <showResult>true</showResult>
+            </config>
+            <pd:inputBindings>
+                <pfx4:TibUnitTestResult>
+                    <xsl:attribute xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="engineName">
+                        <xsl:value-of select="$GetVariable/pfx4:TibUnitTestResult/@engineName"/>
+                    </xsl:attribute>
+                    <xsl:attribute xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="startTime">
+                        <xsl:value-of select="$GetVariable/pfx4:TibUnitTestResult/@startTime"/>
+                    </xsl:attribute>
+                    <xsl:if test="$GetVariable/pfx4:TibUnitTestResult/@endTime">
+                        <xsl:attribute name="endTime">
+                            <xsl:value-of select="$GetVariable/pfx4:TibUnitTestResult/@endTime"/>
+                        </xsl:attribute>
+                    </xsl:if>
+                    <xsl:attribute name="passCount">
+                        <xsl:value-of select="$GetVariable/pfx4:TibUnitTestResult/@passCount"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="failCount">
+                        <xsl:value-of select="$GetVariable/pfx4:TibUnitTestResult/@failCount + 1"/>
+                    </xsl:attribute>
+                    <xsl:copy-of select="$GetVariable/pfx4:TibUnitTestResult/pfx4:TibUnitTest"/>
+                    <xsl:copy-of select="$Map-Result/pfx4:TibUnitTest"/>
+                </pfx4:TibUnitTestResult>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="SetFileNames">
+            <pd:type>com.tibco.pe.core.SetSharedVariableActivity</pd:type>
+            <pd:resourceType>ae.activities.setSharedVariable</pd:resourceType>
+            <pd:x>440</pd:x>
+            <pd:y>87</pd:y>
+            <config>
+                <variableConfig>/TibUnit/CurrentFileNames.jobsharedvariable</variableConfig>
+            </config>
+            <pd:inputBindings>
+                <fileNames>
+                    <inputFileName>
+                        <xsl:value-of select="$ReadInputFile/pfx:ReadActivityOutputTextClass/fileInfo/fullName"/>
+                    </inputFileName>
+                    <outputFileName>
+                        <xsl:value-of select="$ReadOutPutFile/pfx:ReadActivityOutputTextClass/fileInfo/fullName"/>
+                    </outputFileName>
+                </fileNames>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Null-1">
+            <pd:type>com.tibco.plugin.timer.NullActivity</pd:type>
+            <pd:resourceType>ae.activities.null</pd:resourceType>
+            <pd:x>210</pd:x>
+            <pd:y>179</pd:y>
+            <config/>
+            <pd:inputBindings/>
+        </pd:activity>
+    </pd:group>
+    <pd:activity name="ListFiles">
+        <pd:type>com.tibco.plugin.file.ListFilesActivity</pd:type>
+        <pd:resourceType>ae.activities.ListFilesActivity</pd:resourceType>
+        <pd:x>52</pd:x>
+        <pd:y>138</pd:y>
+        <config>
+            <mode>files-and-directories</mode>
+        </config>
+        <pd:inputBindings>
+            <pfx:ListFilesActivityConfig>
+                <xsl:variable name="var2" select="tib:substring-before-last($Start/root/processFileName, '.process')"/>
+                <fileName>
+                    <xsl:value-of select="concat($_globalVariables/ns:GlobalVariables/TibUnit/TestDataFolder,&#xA;'input_',&#xA;$var2,&#xA;'_*.xml'&#xA;)"/>
+                </fileName>
+            </pfx:ListFilesActivityConfig>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="MapInputFiles">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>54</pd:x>
+        <pd:y>251</pd:y>
+        <config>
+            <element>
+                <xsd:element name="files">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="testDataFiles" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="inputFileFullPathName" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="outputFileFullPathName" type="xsd:string" minOccurs="0"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <files>
+                <xsl:choose>
+                    <xsl:when test="count($ListFiles/pfx:ListFilesActivityOutput/files/fileInfo)>0">
+                        <xsl:for-each select="$ListFiles/pfx:ListFilesActivityOutput/files/fileInfo">
+                            <testDataFiles>
+                                <inputFileFullPathName>
+                                    <xsl:value-of select="fullName"/>
+                                </inputFileFullPathName>
+                                <outputFileFullPathName>
+                                    <xsl:value-of select="concat($_globalVariables/ns:GlobalVariables/TibUnit/TestDataFolder,&#xA;'output_',&#xA;fileName)"/>
+                                </outputFileFullPathName>
+                            </testDataFiles>
+                        </xsl:for-each>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <testDataFiles>
+                            <inputFileFullPathName>
+                                <xsl:value-of select="''"/>
+                            </inputFileFullPathName>
+                            <outputFileFullPathName>
+                                <xsl:value-of select="''"/>
+                            </outputFileFullPathName>
+                        </testDataFiles>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </files>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>ListFiles</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ListFiles</pd:from>
+        <pd:to>MapInputFiles</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>LoopInputFiles</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>MapInputFiles</pd:from>
+        <pd:to>LoopInputFiles</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

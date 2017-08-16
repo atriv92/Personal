@@ -1,0 +1,29 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
+	<globalVariables>
+		<globalVariable>
+			<name>RunAllTests</name>
+			<value>true</value>
+			<deploymentSettable>false</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1456302025731</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>TestDataFolder</name>
+			<value>D:/TUI/SVN_Repo2_AnalysisDesign_Middleware/TDA/TibUnitFramework/Examples/SampleProject/testdata/</value>
+			<deploymentSettable>false</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1455078953451</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>TestSuiteFolder</name>
+			<value>TibUnitTests/</value>
+			<deploymentSettable>false</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1455078899885</modTime>
+		</globalVariable>
+	</globalVariables>
+</repository>

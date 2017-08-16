@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns3="http://www.tibco.com/schemas/TibUnit/Schema.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions">
+    <pd:name>TibUnit/GenerateReport.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startX>67</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>869</pd:endX>
+    <pd:endY>66</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1452075219269</pd:targetNamespace>
+    <pd:activity name="CreateReportFile">
+        <pd:type>com.tibco.plugin.file.FileCreateActivity</pd:type>
+        <pd:resourceType>ae.activities.FileCreateActivity</pd:resourceType>
+        <pd:x>192</pd:x>
+        <pd:y>65</pd:y>
+        <config>
+            <overwrite>true</overwrite>
+            <createMissingDirectories>true</createMissingDirectories>
+        </config>
+        <pd:inputBindings>
+            <ns2:CreateActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="concat($_globalVariables/ns:GlobalVariables/TibUnit/ReportFileLocation,'_',&#xA;$_processContext/ns1:ProcessContext/ProjectName,'_', &#xA;tib:timestamp(),'_TibUnitTestReport.html')"/>
+                </fileName>
+            </ns2:CreateActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetVariable">
+        <pd:type>com.tibco.pe.core.GetSharedVariableActivity</pd:type>
+        <pd:resourceType>ae.activities.getSharedVariable</pd:resourceType>
+        <pd:x>336</pd:x>
+        <pd:y>66</pd:y>
+        <config>
+            <variableConfig>/TibUnit/ResultXML.sharedvariable</variableConfig>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Write File">
+        <pd:type>com.tibco.plugin.file.FileWriteActivity</pd:type>
+        <pd:resourceType>ae.activities.FileWriteActivity</pd:resourceType>
+        <pd:x>755</pd:x>
+        <pd:y>67</pd:y>
+        <config>
+            <encoding>text</encoding>
+            <compressFile>None</compressFile>
+        </config>
+        <pd:inputBindings>
+            <ns2:WriteActivityInputTextClass>
+                <fileName>
+                    <xsl:value-of select="$CreateReportFile/ns2:CreateActivityOutputClass/fileInfo/fullName"/>
+                </fileName>
+                <textContent>
+                    <xsl:value-of select="$GetResultsSubProcess/root/response"/>
+                </textContent>
+            </ns2:WriteActivityInputTextClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="SetVariable">
+        <pd:type>com.tibco.pe.core.SetSharedVariableActivity</pd:type>
+        <pd:resourceType>ae.activities.setSharedVariable</pd:resourceType>
+        <pd:x>462</pd:x>
+        <pd:y>66</pd:y>
+        <config>
+            <variableConfig>/TibUnit/ResultXML.sharedvariable</variableConfig>
+            <showResult>true</showResult>
+        </config>
+        <pd:inputBindings>
+            <ns3:TibUnitTestResult>
+                <xsl:attribute name="engineName">
+                    <xsl:value-of select="$GetVariable/ns3:TibUnitTestResult/@engineName"/>
+                </xsl:attribute>
+                <xsl:attribute name="startTime">
+                    <xsl:value-of select="$GetVariable/ns3:TibUnitTestResult/@startTime"/>
+                </xsl:attribute>
+                <xsl:attribute name="endTime">
+                    <xsl:value-of select="current-dateTime()"/>
+                </xsl:attribute>
+                <xsl:if test="$GetVariable/ns3:TibUnitTestResult/@passCount">
+                    <xsl:attribute name="passCount">
+                        <xsl:value-of select="$GetVariable/ns3:TibUnitTestResult/@passCount"/>
+                    </xsl:attribute>
+                </xsl:if>
+                <xsl:if test="$GetVariable/ns3:TibUnitTestResult/@failCount">
+                    <xsl:attribute name="failCount">
+                        <xsl:value-of select="$GetVariable/ns3:TibUnitTestResult/@failCount"/>
+                    </xsl:attribute>
+                </xsl:if>
+                <xsl:copy-of select="$GetVariable/ns3:TibUnitTestResult/ns3:TibUnitTest"/>
+            </ns3:TibUnitTestResult>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetResultsSubProcess">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>609</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <processName>/TibUnit/GetResultsSubProcess.process</processName>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>CreateReportFile</pd:from>
+        <pd:to>GetVariable</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Write File</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetVariable</pd:from>
+        <pd:to>SetVariable</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SetVariable</pd:from>
+        <pd:to>GetResultsSubProcess</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>CreateReportFile</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetResultsSubProcess</pd:from>
+        <pd:to>Write File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

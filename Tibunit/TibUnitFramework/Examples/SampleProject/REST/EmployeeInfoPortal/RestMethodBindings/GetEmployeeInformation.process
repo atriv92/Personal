@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx4="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx3="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd5" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd2" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xsd:import namespace="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd" schemaLocation="/SharedResources/Schemas/ProjectAssignment.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd2" schemaLocation="/SharedResources/Schemas/Finance.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd5" schemaLocation="/SharedResources/Schemas/AllDetails.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" schemaLocation="/SharedResources/Schemas/ErrorSchema.xsd"/>
+    <pd:name>REST/EmployeeInfoPortal/RestMethodBindings/GetEmployeeInformation.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="EmployeeID" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>74</pd:startX>
+    <pd:startY>57</pd:startY>
+    <pd:returnBindings>
+        <xsl:choose>
+            <xsl:when test="exists($_error/ns1:ErrorReport/MsgCode)">
+                <Response>
+                    <JsonString>
+                        <xsl:value-of select="$Render-JSON-1/ns:ActivityOutputClass/jsonString"/>
+                    </JsonString>
+                </Response>
+            </xsl:when>
+            <xsl:otherwise>
+                <Response>
+                    <JsonString>
+                        <xsl:value-of select="$Render-JSON/ns:ActivityOutputClass/jsonString"/>
+                    </JsonString>
+                </Response>
+            </xsl:otherwise>
+        </xsl:choose>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="Response">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="JsonString" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>937</pd:endX>
+    <pd:endY>203</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1453363289881</pd:targetNamespace>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>505</pd:x>
+        <pd:y>204</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="GetEmployeeDetails">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>124</pd:x>
+        <pd:y>204</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>SELECT * FROM EMPLOYEE WHERE EMPLOYEE.EMPID = ?</statement>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>EmployeeID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <oraObjects/>
+            <oraTables/>
+            <QueryOutputCachedSchemaColumns>EMPID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>FULLNAME</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>DESIGNATION</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>ORACLEID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>KBGID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput>
+                <EmployeeID>
+                    <xsl:value-of select="$Start/root/EmployeeID"/>
+                </EmployeeID>
+            </jdbcQueryActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetFinancialDetails">
+        <pd:type>com.tibco.plugin.ftp.FTPGetActivity</pd:type>
+        <pd:resourceType>ae.activities.FTPGetActivityUI</pd:resourceType>
+        <pd:x>326</pd:x>
+        <pd:y>57</pd:y>
+        <config>
+            <Timeout>120000</Timeout>
+            <isBinary>true</isBinary>
+            <Overwrite>false</Overwrite>
+            <useProcessData>true</useProcessData>
+            <SharedUserData>/Connections/FTP/FTP Connection.sharedftp</SharedUserData>
+        </config>
+        <pd:inputBindings>
+            <FTPGetInputData>
+                <RemoteFileName>
+                    <xsl:value-of select="concat(&quot;/home/userftp/Test_AbhishekB/&quot;, concat($GetEmployeeDetails/resultSet/Record[1]/KBGID,&quot;.txt&quot;))"/>
+                </RemoteFileName>
+            </FTPGetInputData>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetPersonalDetails">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>322</pd:x>
+        <pd:y>204</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <statement>SELECT * FROM  EMPLOYEEPERSONALDETAILS, PROJECTASSIGNMENT
+WHERE EMPLOYEEPERSONALDETAILS.EMPID = ? AND PROJECTASSIGNMENT.ORACLEID = ?</statement>
+            <jdbcSharedConfig>/Connections/JDBC/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <Prepared_Param_DataType>
+                <parameter>
+                    <parameterName>EmployeeID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+                <parameter>
+                    <parameterName>OracleID</parameterName>
+                    <dataType>VARCHAR</dataType>
+                </parameter>
+            </Prepared_Param_DataType>
+            <oraObjects/>
+            <oraTables/>
+            <QueryOutputCachedSchemaColumns>EMPID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>FIRSTNAME</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>SURNAME</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>DOJ</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>93</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>DATE</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>DOB</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>93</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>DATE</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>ADDLINE1</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>ADDLINE2</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>CITY</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>PIN</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>2</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>NUMBER</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>STATE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>COUNTRY</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>SPOUSE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>CHILDREN</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>PASSPORTDETALS</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>ORACLEID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>BILLABILITY</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>ROLE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>DESIGNATION</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>PID</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>PROJECTNAME</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR2</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>PIDSTARTDATE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>93</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>DATE</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>PIDENDDATE</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>93</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>DATE</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>OptionalElement</QueryOutputCachedSchemaStatus>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput>
+                <EmployeeID>
+                    <xsl:choose>
+                        <xsl:when test="exists($GetEmployeeDetails/resultSet/Record[1]/EMPID)">
+                            <xsl:value-of select="$GetEmployeeDetails/resultSet/Record[1]/EMPID"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </EmployeeID>
+                <OracleID>
+                    <xsl:choose>
+                        <xsl:when test="exists($GetEmployeeDetails/resultSet/Record[1]/ORACLEID)">
+                            <xsl:value-of select="$GetEmployeeDetails/resultSet/Record[1]/ORACLEID"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="xsi:nil">true</xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </OracleID>
+            </jdbcQueryActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Map Data">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>705</pd:x>
+        <pd:y>57</pd:y>
+        <config>
+            <element ref="pfx3:AllDetails"/>
+        </config>
+        <pd:inputBindings>
+            <pfx3:AllDetails>
+                <pfx3:Employee>
+                    <pfx3:EmpID>
+                        <xsl:value-of select="$GetEmployeeDetails/resultSet/Record[1]/EMPID"/>
+                    </pfx3:EmpID>
+                    <pfx3:FullName>
+                        <xsl:value-of select="$GetEmployeeDetails/resultSet/Record[1]/FULLNAME"/>
+                    </pfx3:FullName>
+                    <pfx3:Designation>
+                        <xsl:value-of select="$GetEmployeeDetails/resultSet/Record[1]/DESIGNATION"/>
+                    </pfx3:Designation>
+                    <pfx3:OracleID>
+                        <xsl:value-of select="$GetEmployeeDetails/resultSet/Record[1]/ORACLEID"/>
+                    </pfx3:OracleID>
+                    <pfx3:KBGID>
+                        <xsl:value-of select="$GetEmployeeDetails/resultSet/Record[1]/KBGID"/>
+                    </pfx3:KBGID>
+                </pfx3:Employee>
+                <pfx3:ProjectAssignment>
+                    <pfx3:Billability>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/BILLABILITY"/>
+                    </pfx3:Billability>
+                    <pfx3:Role>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/ROLE"/>
+                    </pfx3:Role>
+                    <pfx3:PID>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/PID"/>
+                    </pfx3:PID>
+                    <pfx3:ProjectName>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/PROJECTNAME"/>
+                    </pfx3:ProjectName>
+                    <pfx3:PIDStartDate>
+                        <xsl:value-of select="substring-before($GetPersonalDetails/resultSet/Record[1]/PIDSTARTDATE, &quot;T&quot;)"/>
+                    </pfx3:PIDStartDate>
+                    <pfx3:PIDEndDate>
+                        <xsl:value-of select="substring-before($GetPersonalDetails/resultSet/Record[1]/PIDENDDATE, &quot;T&quot;)"/>
+                    </pfx3:PIDEndDate>
+                </pfx3:ProjectAssignment>
+                <pfx3:EmployeePersonalDetails>
+                    <pfx3:FirstName>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/FIRSTNAME"/>
+                    </pfx3:FirstName>
+                    <pfx3:SurName>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/SURNAME"/>
+                    </pfx3:SurName>
+                    <pfx3:DOJ>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/DOJ"/>
+                    </pfx3:DOJ>
+                    <pfx3:DOB>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/DOB"/>
+                    </pfx3:DOB>
+                    <pfx3:AddLine1>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/ADDLINE1"/>
+                    </pfx3:AddLine1>
+                    <pfx3:AddLine2>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/ADDLINE2"/>
+                    </pfx3:AddLine2>
+                    <pfx3:City>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/CITY"/>
+                    </pfx3:City>
+                    <pfx3:PIN>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/PIN"/>
+                    </pfx3:PIN>
+                    <pfx3:State>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/STATE"/>
+                    </pfx3:State>
+                    <pfx3:Country>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/COUNTRY"/>
+                    </pfx3:Country>
+                    <pfx3:Spouse>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/SPOUSE"/>
+                    </pfx3:Spouse>
+                    <pfx3:Children>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/CHILDREN"/>
+                    </pfx3:Children>
+                    <pfx3:PassportDetails>
+                        <xsl:value-of select="$GetPersonalDetails/resultSet/Record[1]/PASSPORTDETALS"/>
+                    </pfx3:PassportDetails>
+                </pfx3:EmployeePersonalDetails>
+                <pfx3:Finance>
+                    <pfx3:PAN>
+                        <xsl:value-of select="$Parse-XML/pfx2:Finance/pfx2:PAN"/>
+                    </pfx3:PAN>
+                    <pfx3:PayBand>
+                        <xsl:value-of select="$Parse-XML/pfx2:Finance/pfx2:Payband"/>
+                    </pfx3:PayBand>
+                    <pfx3:Salary>
+                        <xsl:value-of select="$Parse-XML/pfx2:Finance/pfx2:Salary"/>
+                    </pfx3:Salary>
+                    <pfx3:Allowances>
+                        <xsl:value-of select="$Parse-XML/pfx2:Finance/pfx2:Allowances"/>
+                    </pfx3:Allowances>
+                    <pfx3:Retirals>
+                        <xsl:value-of select="$Parse-XML/pfx2:Finance/pfx2:Retirals"/>
+                    </pfx3:Retirals>
+                    <pfx3:Bonus>
+                        <xsl:value-of select="$Parse-XML/pfx2:Finance/pfx2:Bonus"/>
+                    </pfx3:Bonus>
+                </pfx3:Finance>
+            </pfx3:AllDetails>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Map-Error">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>654</pd:x>
+        <pd:y>204</pd:y>
+        <config>
+            <element ref="pfx4:Error"/>
+        </config>
+        <pd:inputBindings>
+            <xsl:choose>
+                <xsl:when test="exists($_error_GetEmployeeDetails/ActivityErrors)">
+                    <pfx4:Error>
+                        <pfx4:ErrorStatus>
+                            <xsl:value-of select="&quot;Error in fetching Employee Details&quot;"/>
+                        </pfx4:ErrorStatus>
+                        <pfx4:ErrorCode>
+                            <xsl:value-of select="$_error/ns1:ErrorReport/MsgCode"/>
+                        </pfx4:ErrorCode>
+                    </pfx4:Error>
+                </xsl:when>
+                <xsl:when test="exists($_error_GetPersonalDetails/ActivityErrors)">
+                    <pfx4:Error>
+                        <pfx4:ErrorStatus>
+                            <xsl:value-of select="&quot;Error in fetching personal details&quot;"/>
+                        </pfx4:ErrorStatus>
+                        <pfx4:ErrorCode>
+                            <xsl:value-of select="$_error/ns1:ErrorReport/MsgCode"/>
+                        </pfx4:ErrorCode>
+                    </pfx4:Error>
+                </xsl:when>
+                <xsl:when test="exists($_error_GetFinancialDetails/ActivityErrors)">
+                    <pfx4:Error>
+                        <pfx4:ErrorStatus>
+                            <xsl:value-of select="&quot;Error in fetching Financial Details&quot;"/>
+                        </pfx4:ErrorStatus>
+                        <pfx4:ErrorCode>
+                            <xsl:value-of select="$_error/ns1:ErrorReport/MsgCode"/>
+                        </pfx4:ErrorCode>
+                    </pfx4:Error>
+                </xsl:when>
+                <xsl:otherwise>
+                    <pfx4:Error>
+                        <pfx4:ErrorStatus>
+                            <xsl:value-of select="$_error/ns1:ErrorReport/Msg"/>
+                        </pfx4:ErrorStatus>
+                        <pfx4:ErrorCode>
+                            <xsl:value-of select="$_error/ns1:ErrorReport/MsgCode"/>
+                        </pfx4:ErrorCode>
+                    </pfx4:Error>
+                </xsl:otherwise>
+            </xsl:choose>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Parse XML">
+        <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
+        <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
+        <pd:x>542</pd:x>
+        <pd:y>57</pd:y>
+        <config>
+            <inputStyle>binary</inputStyle>
+            <xsdVersion>default</xsdVersion>
+            <validateOutput>true</validateOutput>
+            <term ref="pfx2:Finance"/>
+        </config>
+        <pd:inputBindings>
+            <xmlBinary>
+                <bytes>
+                    <xsl:value-of select="$GetFinancialDetails/FTPGetOutputBinary/BinaryData"/>
+                </bytes>
+            </xmlBinary>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render JSON">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>937</pd:x>
+        <pd:y>57</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor ref="pfx3:AllDetails"/>
+        </config>
+        <pd:inputBindings>
+            <ns:ActivityInputClass>
+                <xsl:copy-of select="$Map-Data/pfx3:AllDetails"/>
+            </ns:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render-JSON-1">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>764</pd:x>
+        <pd:y>204</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor ref="pfx4:Error"/>
+        </config>
+        <pd:inputBindings>
+            <ns:ActivityInputClass>
+                <xsl:copy-of select="$Map-Error/pfx4:Error"/>
+            </ns:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetEmployeeDetails</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetEmployeeDetails</pd:from>
+        <pd:to>GetPersonalDetails</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetPersonalDetails</pd:from>
+        <pd:to>GetFinancialDetails</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetFinancialDetails</pd:from>
+        <pd:to>Parse XML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Parse XML</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Map Data</pd:from>
+        <pd:to>Render JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render JSON</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>Map-Error</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Map-Error</pd:from>
+        <pd:to>Render-JSON-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render-JSON-1</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

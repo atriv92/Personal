@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://wadl.dev.java.net/2009/02" name="Application">
+    <resources name="RestService" base="http://localhost:7896">
+        <resource id="GetEmployeeInformation" path="empinfo">
+            <method id="GetAllDetails" name="GET">
+                <request name="Request"/>
+                <response name="Response"/>
+            </method>
+            <param name="empid" style="query" required="true" default=""/>
+        </resource>
+        <resource id="GetFinanceDetails" path="financeDetails">
+            <method id="GetFinancialDetails" name="GET">
+                <request name="Request"/>
+                <response name="Response"/>
+            </method>
+            <param name="KBGID" style="query" required="true" default=""/>
+        </resource>
+        <resource id="GetAssignmentDetails" path="assignmentDetails">
+            <method id="GetAssignmDetails" name="GET">
+                <request name="Request"/>
+                <response name="Response"/>
+            </method>
+            <param name="oracleID" style="query" required="true" default=""/>
+        </resource>
+        <resource id="UpdatePersonalDetails" path="updatePersonal">
+            <method id="UpdatePersonal" name="GET">
+                <request name="Request"/>
+                <response name="Response"/>
+            </method>
+            <param name="EmpId" style="query" required="true" default=""/>
+            <param name="FirstName" style="query" required="true" default=""/>
+            <param name="SurName" style="query" required="false" default=""/>
+            <param name="DOJ" style="query" required="true" default=""/>
+            <param name="DOB" style="query" required="true" default=""/>
+            <param name="AddLine1" style="query" required="false" default=""/>
+            <param name="AddLine2" style="query" required="false" default=""/>
+            <param name="City" style="query" required="false" default=""/>
+            <param name="PIN" style="query" required="false" default=""/>
+            <param name="State" style="query" required="false" default=""/>
+            <param name="Country" style="query" required="false" default=""/>
+            <param name="Spouse" style="query" required="false" default=""/>
+            <param name="Children" style="query" required="false" default=""/>
+            <param name="PassportDetails" style="query" required="true" default=""/>
+        </resource>
+        <resource id="UpdateFinanceDetails" path="updateFinance">
+            <method id="UpdateFinancial" name="GET">
+                <request name="Request"/>
+                <response name="Response"/>
+            </method>
+            <param name="KBGID" style="query" required="true" default=""/>
+            <param name="FullName" style="query" required="true" default=""/>
+            <param name="PAN" style="query" required="true" default=""/>
+            <param name="PayBand" style="query" required="true" default=""/>
+            <param name="Salary" style="query" required="true" default=""/>
+            <param name="Allowances" style="query" required="false" default=""/>
+            <param name="Retirals" style="query" required="false" default=""/>
+            <param name="Bonus" style="query" required="false" default=""/>
+        </resource>
+        <resource id="UpdateProjectAssignment" path="updateProject">
+            <method id="UpdateProject" name="GET">
+                <request name="Request"/>
+                <response name="Response"/>
+            </method>
+            <param name="OracleID" style="query" required="true" default=""/>
+            <param name="Billability" style="query" required="true" default=""/>
+            <param name="Role" style="query" required="false" default=""/>
+            <param name="Designation" style="query" required="true" default=""/>
+            <param name="PID" style="query" required="false" default=""/>
+            <param name="ProjectName" style="query" required="false" default=""/>
+            <param name="PIDStartDate" style="query" required="false" default=""/>
+            <param name="PIDEndDate" style="query" required="false" default=""/>
+        </resource>
+        <resource id="DeleteEmployee" path="deleteEmp">
+            <method id="DeleteEmp" name="GET">
+                <request name="Request"/>
+                <response name="Response"/>
+            </method>
+            <param name="EmpID" style="query" required="true" default=""/>
+        </resource>
+        <resource id="CreateEmployeeData" path="createEmployee">
+            <method id="CreateEmp" name="GET">
+                <request name="Request"/>
+                <response name="Response"/>
+            </method>
+            <param name="EmpID" style="query" required="true" default=""/>
+            <param name="FullName" style="query" required="true" default=""/>
+            <param name="Designation" style="query" required="true" default=""/>
+            <param name="OracleID" style="query" required="true" default=""/>
+            <param name="KBGID" style="query" required="true" default=""/>
+            <param name="Billability" style="query" required="true" default=""/>
+            <param name="Role" style="query" required="true" default=""/>
+            <param name="PID" style="query" required="true" default=""/>
+            <param name="ProjectName" style="query" required="true" default=""/>
+            <param name="PIDStartDate" style="query" required="true" default=""/>
+            <param name="PIDEndDate" style="query" required="true" default=""/>
+            <param name="FirstName" style="query" required="true" default=""/>
+            <param name="SurName" style="query" required="true" default=""/>
+            <param name="DOJ" style="query" required="true" default=""/>
+            <param name="DOB" style="query" required="true" default=""/>
+            <param name="AddLine1" style="query" required="true" default=""/>
+            <param name="AddLine2" style="query" required="true" default=""/>
+            <param name="City" style="query" required="true" default=""/>
+            <param name="PIN" style="query" required="true" default=""/>
+            <param name="State" style="query" required="true" default=""/>
+            <param name="Country" style="query" required="true" default=""/>
+            <param name="Spouse" style="query" required="true" default=""/>
+            <param name="Children" style="query" required="true" default=""/>
+            <param name="PassportDetails" style="query" required="true" default=""/>
+            <param name="PAN" style="query" required="true" default=""/>
+            <param name="PayBand" style="query" required="true" default=""/>
+            <param name="Salary" style="query" required="true" default=""/>
+            <param name="Allowances" style="query" required="true" default=""/>
+            <param name="Retirals" style="query" required="true" default=""/>
+            <param name="Bonus" style="query" required="true" default=""/>
+        </resource>
+    </resources>
+</application>

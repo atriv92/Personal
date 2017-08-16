@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:ns2="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns4="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:ns3="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx4="http://www.tibco.com/schemas/TibUnit/Schema.xsd" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="com/tibco/pe/commands">
+    <xsd:import namespace="http://www.tibco.com/schemas/TibUnit/Schema.xsd" schemaLocation="/TibUnit/Schema.xsd"/>
+    <pd:name>TibUnit/GetTestsToRun.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startX>51</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <xsl:copy-of select="$SortTibUnits/TibUnits"/>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="TibUnits">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="TibUnit" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="processFileName" type="xsd:string"/>
+                                <xsd:element name="parentFolder" type="xsd:string"/>
+                                <xsd:element name="completeProcessName" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>182</pd:endX>
+    <pd:endY>211</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1451902982444</pd:targetNamespace>
+    <pd:activity name="getProcesses">
+        <pd:type>com.tibco.pe.core.EngineCommandActivity</pd:type>
+        <pd:resourceType>ae.activities.enginecommand</pd:resourceType>
+        <pd:x>181</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <command>GetProcessDefinitionStats</command>
+        </config>
+        <pd:inputBindings>
+            <pfx:input/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ReadSelectedTestsFile">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:x>525</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <ns4:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="$_globalVariables/ns1:GlobalVariables/TibUnit/RunSelectedTestsFilePath"/>
+                </fileName>
+            </ns4:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="SortTibUnits">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>325</pd:x>
+        <pd:y>211</pd:y>
+        <config>
+            <element>
+                <xsd:element name="TibUnits">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="TibUnit" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="processFileName" type="xsd:string"/>
+                                        <xsd:element name="parentFolder" type="xsd:string"/>
+                                        <xsd:element name="completeProcessName" type="xsd:string"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <xsl:choose>
+                <xsl:when test="$TibUnits-1/TibUnits">
+                    <TibUnits>
+                        <xsl:for-each select="$TibUnits-1/TibUnits/TibUnit">
+                            <xsl:sort select="parentFolder"/>
+                            <TibUnit>
+                                <processFileName>
+                                    <xsl:value-of select="processFileName"/>
+                                </processFileName>
+                                <parentFolder>
+                                    <xsl:value-of select="parentFolder"/>
+                                </parentFolder>
+                                <completeProcessName>
+                                    <xsl:value-of select="completeProcessName"/>
+                                </completeProcessName>
+                            </TibUnit>
+                        </xsl:for-each>
+                    </TibUnits>
+                </xsl:when>
+                <xsl:otherwise>
+                    <TibUnits>
+                        <xsl:for-each select="$TibUnits/TibUnits/TibUnit">
+                            <xsl:sort select="parentFolder"/>
+                            <TibUnit>
+                                <processFileName>
+                                    <xsl:value-of select="processFileName"/>
+                                </processFileName>
+                                <parentFolder>
+                                    <xsl:value-of select="parentFolder"/>
+                                </parentFolder>
+                                <completeProcessName>
+                                    <xsl:value-of select="completeProcessName"/>
+                                </completeProcessName>
+                            </TibUnit>
+                        </xsl:for-each>
+                    </TibUnits>
+                </xsl:otherwise>
+            </xsl:choose>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="TibUnits">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>323</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <element>
+                <xsd:element name="TibUnits">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="TibUnit" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="processFileName" type="xsd:string"/>
+                                        <xsd:element name="parentFolder" type="xsd:string"/>
+                                        <xsd:element name="completeProcessName" type="xsd:string"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <xsl:variable name="var" select="$_globalVariables/ns1:GlobalVariables/TibUnit/TestSuiteFolder"/>
+            <TibUnits>
+                <xsl:for-each select="$getProcesses/pfx:output/pfx:GetProcessDefinitionStats[starts-with(ProcessDefinitionName, $var)]">
+                    <TibUnit>
+                        <processFileName>
+                            <xsl:value-of select="if(contains(ProcessDefinitionName,'/')) &#xA;then tib:substring-after-last(ProcessDefinitionName,'/') &#xA;else ProcessDefinitionName"/>
+                        </processFileName>
+                        <parentFolder>
+                            <xsl:value-of select="if(contains(ProcessDefinitionName,'/')) &#xA;then        substring-after(tib:substring-before-last(ProcessDefinitionName,'/'), $var) &#xA;else ''"/>
+                        </parentFolder>
+                        <completeProcessName>
+                            <xsl:value-of select="ProcessDefinitionName"/>
+                        </completeProcessName>
+                    </TibUnit>
+                </xsl:for-each>
+            </TibUnits>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="testsNames">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>660</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <element>
+                <xsd:element name="tests">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="testName" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <xsl:variable name="var" select="tib:tokenize(tib:trim($ReadSelectedTestsFile/ns:ReadActivityOutputTextClass/fileContent/textContent), ',')&#xA;&#xA;"/>
+            <tests>
+                <xsl:for-each select="$var">
+                    <xsl:if test="not(starts-with(tib:trim(.), '--'))">
+                        <testName>
+                            <xsl:value-of select="tib:trim(.)"/>
+                        </testName>
+                    </xsl:if>
+                </xsl:for-each>
+            </tests>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="TibUnits-1">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>659</pd:x>
+        <pd:y>208</pd:y>
+        <config>
+            <element>
+                <xsd:element name="TibUnits">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="TibUnit" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="processFileName" type="xsd:string"/>
+                                        <xsd:element name="parentFolder" type="xsd:string"/>
+                                        <xsd:element name="completeProcessName" type="xsd:string"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <xsl:variable xmlns:xsl="http://www.w3.org/1999/XSL/Transform" name="var" select="$_globalVariables/ns1:GlobalVariables/TibUnit/TestSuiteFolder"/>
+            <TibUnits>
+                <xsl:for-each xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$getProcesses/pfx:output/pfx:GetProcessDefinitionStats[starts-with(ProcessDefinitionName, $var)]">
+                    <xsl:if test="exists($testsNames/tests[testName=current()/ProcessDefinitionName])">
+                        <TibUnit>
+                            <processFileName>
+                                <xsl:value-of select="if(contains(ProcessDefinitionName,'/')) &#xA;then tib:substring-after-last(ProcessDefinitionName,'/') &#xA;else ProcessDefinitionName"/>
+                            </processFileName>
+                            <parentFolder>
+                                <xsl:value-of select="if(contains(ProcessDefinitionName,'/')) &#xA;then        substring-after(tib:substring-before-last(ProcessDefinitionName,'/'), $var) &#xA;else ''"/>
+                            </parentFolder>
+                            <completeProcessName>
+                                <xsl:value-of select="ProcessDefinitionName"/>
+                            </completeProcessName>
+                        </TibUnit>
+                    </xsl:if>
+                </xsl:for-each>
+            </TibUnits>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Log">
+        <pd:type>com.tibco.pe.core.WriteToLogActivity</pd:type>
+        <pd:resourceType>ae.activities.log</pd:resourceType>
+        <pd:x>426</pd:x>
+        <pd:y>142</pd:y>
+        <config>
+            <role>Error</role>
+        </config>
+        <pd:inputBindings>
+            <ns2:ActivityInput>
+                <message>
+                    <xsl:value-of select="'Error in reading SelectedTestsRunFile'"/>
+                </message>
+                <msgCode>
+                    <xsl:value-of select="tib:render-xml($_error/ns3:ErrorReport)"/>
+                </msgCode>
+            </ns2:ActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>getProcesses</pd:from>
+        <pd:to>TibUnits</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>TibUnits</pd:from>
+        <pd:to>SortTibUnits</pd:to>
+        <pd:xpathDescription>RunAllTests</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$_globalVariables/ns1:GlobalVariables/TibUnit/RunAllTests='true'</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>TibUnits</pd:from>
+        <pd:to>ReadSelectedTestsFile</pd:to>
+        <pd:xpathDescription>RunSelectedTests</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>getProcesses</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ReadSelectedTestsFile</pd:from>
+        <pd:to>testsNames</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SortTibUnits</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>testsNames</pd:from>
+        <pd:to>TibUnits-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>TibUnits-1</pd:from>
+        <pd:to>SortTibUnits</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ReadSelectedTestsFile</pd:from>
+        <pd:to>Log</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-52480</pd:lineColor>
+        <pd:conditionType>error</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Log</pd:from>
+        <pd:to>SortTibUnits</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

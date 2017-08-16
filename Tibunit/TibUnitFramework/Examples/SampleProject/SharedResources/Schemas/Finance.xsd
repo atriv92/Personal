@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd2"
+	 targetNamespace="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd2"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="Finance">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="KBGID" minOccurs="0"/>
+				<xs:element ref="FullName" minOccurs="0"/>
+				<xs:element ref="PAN" minOccurs="0"/>
+				<xs:element ref="Payband" minOccurs="0"/>
+				<xs:element ref="Salary" minOccurs="0"/>
+				<xs:element ref="Allowances" minOccurs="0"/>
+				<xs:element ref="Retirals" minOccurs="0"/>
+				<xs:element ref="Bonus" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="KBGID" type="xs:string"/>
+	<xs:element name="FullName" type="xs:string"/>
+	<xs:element name="PAN" type="xs:string"/>
+	<xs:element name="Payband" type="xs:string"/>
+	<xs:element name="Salary" type="xs:decimal"/>
+	<xs:element name="Allowances" type="xs:decimal"/>
+	<xs:element name="Retirals" type="xs:decimal"/>
+	<xs:element name="Bonus" type="xs:decimal"/>
+</xs:schema>

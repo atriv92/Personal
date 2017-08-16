@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx2="com/tibco/pe/commands" xmlns:pfx="http://www.tibco.com/schemas/TibUnit/Schema.xsd">
+    <xsd:import namespace="http://www.tibco.com/schemas/TibUnit/Schema.xsd" schemaLocation="/TibUnit/Schema.xsd"/>
+    <pd:name>TibUnit/InitResultXML_OnStartUp.process</pd:name>
+    <pd:startName>onStartup</pd:startName>
+    <pd:startX>0</pd:startX>
+    <pd:startY>0</pd:startY>
+    <pd:returnBindings/>
+    <pd:starter name="onStartup">
+        <pd:type>com.tibco.pe.core.OnStartupEventSource</pd:type>
+        <pd:resourceType>ae.activities.onStartup</pd:resourceType>
+        <pd:x>121</pd:x>
+        <pd:y>64</pd:y>
+        <config/>
+        <pd:inputBindings/>
+    </pd:starter>
+    <pd:endName>End</pd:endName>
+    <pd:endX>540</pd:endX>
+    <pd:endY>66</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1450173954071</pd:targetNamespace>
+    <pd:activity name="Map Data">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>256</pd:x>
+        <pd:y>63</pd:y>
+        <config>
+            <element ref="pfx:TibUnitTestResult"/>
+        </config>
+        <pd:inputBindings>
+            <pfx:TibUnitTestResult>
+                <xsl:attribute name="engineName">
+                    <xsl:value-of select="$_processContext/ns:ProcessContext/EngineName"/>
+                </xsl:attribute>
+                <xsl:attribute name="startTime">
+                    <xsl:value-of select="current-dateTime()"/>
+                </xsl:attribute>
+                <xsl:attribute name="passCount">
+                    <xsl:value-of select="0"/>
+                </xsl:attribute>
+                <xsl:attribute name="failCount">
+                    <xsl:value-of select="0"/>
+                </xsl:attribute>
+            </pfx:TibUnitTestResult>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="SetVariable">
+        <pd:type>com.tibco.pe.core.SetSharedVariableActivity</pd:type>
+        <pd:resourceType>ae.activities.setSharedVariable</pd:resourceType>
+        <pd:x>403</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <variableConfig>/TibUnit/ResultXML.sharedvariable</variableConfig>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$Map-Data/pfx:TibUnitTestResult"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>onStartup</pd:from>
+        <pd:to>Map Data</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Map Data</pd:from>
+        <pd:to>SetVariable</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SetVariable</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://www.example.com/xsd/books" xmlns:tns="http://xmlns.example.com/mybookstore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xmlns.example.com/mybookstore" name="untitled">
+    <import namespace="http://www.example.com/xsd/books" location="Books.xsd"/>
+    <message name="GetBooksOut">
+        <part name="message" element="ns:BookStore"/>
+    </message>
+    <message name="GetBooksByAuthor">
+        <part name="author" element="ns:Author"/>
+    </message>
+    <portType name="GetBooksByAuthor">
+        <operation name="GetBooks">
+            <input message="tns:GetBooksByAuthor"/>
+            <output message="tns:GetBooksOut"/>
+        </operation>
+    </portType>
+</definitions>

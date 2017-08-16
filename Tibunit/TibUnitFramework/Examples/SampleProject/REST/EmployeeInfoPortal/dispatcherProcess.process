@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <pd:name>REST/EmployeeInfoPortal/dispatcherProcess.process</pd:name>
+    <pd:startName>HTTP Receiver</pd:startName>
+    <pd:startX>0</pd:startX>
+    <pd:startY>0</pd:startY>
+    <pd:returnBindings/>
+    <pd:starter name="HTTP Receiver">
+        <pd:type>com.tibco.plugin.http.HTTPEventSource</pd:type>
+        <pd:resourceType>httppalette.httpEventSource</pd:resourceType>
+        <pd:x>184</pd:x>
+        <pd:y>65</pd:y>
+        <config>
+            <outputMode>String</outputMode>
+            <defaultEncoding>ISO8859_1</defaultEncoding>
+            <inputOutputVersion>5.3.0</inputOutputVersion>
+            <newMimeSupport>true</newMimeSupport>
+            <sharedChannel>/Connections/HTTP/HTTPConnectionforREST.sharedhttp</sharedChannel>
+            <Headers>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="Accept" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Accept-Charset" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Accept-Encoding" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Length" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Connection" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </Headers>
+        </config>
+        <pd:inputBindings/>
+    </pd:starter>
+    <pd:endName>End</pd:endName>
+    <pd:endX>746</pd:endX>
+    <pd:endY>65</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1454329164854</pd:targetNamespace>
+    <pd:activity name="REST Dispatch and Reply">
+        <pd:type>com.tibco.plugin.json.rest.server.activities.RestAdapterActivity</pd:type>
+        <pd:resourceType>rest.activities.RestAdapter</pd:resourceType>
+        <pd:x>458</pd:x>
+        <pd:y>69</pd:y>
+        <config>
+            <Headers>
+                <xsd:element xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </Headers>
+            <closeConnection>true</closeConnection>
+            <eventSource>HTTP Receiver</eventSource>
+            <EnableWADLReference>true</EnableWADLReference>
+            <WADLReference>/SharedResources/WADL/Application.wadl</WADLReference>
+            <RestService>
+                <InnerService>
+                    <ns0:application xmlns:ns0="http://wadl.dev.java.net/2009/02" name="Application"/>
+                </InnerService>
+                <OuterBinding>
+                    <Binding path="http://localhost:7896/empinfo/GetAllDetails" process="/REST/EmployeeInfoPortal/RestMethodBindings/GetEmployeeInformation.process">
+                        <RESTResponseHeader>
+                            <xsd:element name="Headers">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </RESTResponseHeader>
+                        <Input-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema" match="/*">
+                                <root>
+                                    <EmployeeID>
+                                        <xsl:value-of select="$Input-Binding/params/query/empid"/>
+                                    </EmployeeID>
+                                </root>
+                            </xsl:template>
+                        </Input-Binding>
+                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx4="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx3="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd5" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd2" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx4="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx3="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd5" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd2" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" match="/*">
+                                <RESTResponse>
+                                    <xsl:if test="$End/Response/JsonString">
+                                        <asciiContent>
+                                            <xsl:value-of select="$End/Response/JsonString"/>
+                                        </asciiContent>
+                                    </xsl:if>
+                                </RESTResponse>
+                            </xsl:template>
+                        </Output-Binding>
+                    </Binding>
+                    <Binding path="http://localhost:7896/financeDetails/GetFinancialDetails" process="/REST/EmployeeInfoPortal/RestMethodBindings/GetFinanceDetails.process">
+                        <RESTResponseHeader>
+                            <xsd:element name="Headers">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </RESTResponseHeader>
+                        <Input-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema" match="/*">
+                                <root>
+                                    <KBGID>
+                                        <xsl:value-of select="$Input-Binding/params/query/KBGID"/>
+                                    </KBGID>
+                                </root>
+                            </xsl:template>
+                        </Input-Binding>
+                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd2">
+                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd2" match="/*">
+                                <RESTResponse>
+                                    <xsl:if test="$End/Response/JsonString">
+                                        <asciiContent>
+                                            <xsl:value-of select="$End/Response/JsonString"/>
+                                        </asciiContent>
+                                    </xsl:if>
+                                </RESTResponse>
+                            </xsl:template>
+                        </Output-Binding>
+                    </Binding>
+                    <Binding path="http://localhost:7896/assignmentDetails/GetAssignmDetails" process="/REST/EmployeeInfoPortal/RestMethodBindings/GetAssignmentDetails.process">
+                        <RESTResponseHeader>
+                            <xsd:element name="Headers">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </RESTResponseHeader>
+                        <Input-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema" match="/*">
+                                <root>
+                                    <OracleID>
+                                        <xsl:value-of select="$Input-Binding/params/query/oracleID"/>
+                                    </OracleID>
+                                </root>
+                            </xsl:template>
+                        </Input-Binding>
+                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd">
+                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd" match="/*">
+                                <RESTResponse>
+                                    <xsl:if test="$End/Response/JsonString">
+                                        <asciiContent>
+                                            <xsl:value-of select="$End/Response/JsonString"/>
+                                        </asciiContent>
+                                    </xsl:if>
+                                </RESTResponse>
+                            </xsl:template>
+                        </Output-Binding>
+                    </Binding>
+                    <Binding path="http://localhost:7896/updatePersonal/UpdatePersonal" process="/REST/EmployeeInfoPortal/RestMethodBindings/UpdateEmployeePersonalDetails.process">
+                        <RESTResponseHeader>
+                            <xsd:element name="Headers">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </RESTResponseHeader>
+                        <Input-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd3" xmlns:xsd="http://www.w3.org/2001/XMLSchema" match="/*">
+                                <xsl:for-each select="$Input-Binding/params/query">
+                                    <ns:EmployeePersonalDetails>
+                                        <ns:EmpID>
+                                            <xsl:value-of select="EmpId"/>
+                                        </ns:EmpID>
+                                        <ns:FirstName>
+                                            <xsl:value-of select="FirstName"/>
+                                        </ns:FirstName>
+                                        <ns:SurName>
+                                            <xsl:value-of select="SurName"/>
+                                        </ns:SurName>
+                                        <ns:DOJ>
+                                            <xsl:value-of select="DOJ"/>
+                                        </ns:DOJ>
+                                        <ns:DOB>
+                                            <xsl:value-of select="DOB"/>
+                                        </ns:DOB>
+                                        <ns:AddLine1>
+                                            <xsl:value-of select="AddLine1"/>
+                                        </ns:AddLine1>
+                                        <ns:AddLine2>
+                                            <xsl:value-of select="AddLine2"/>
+                                        </ns:AddLine2>
+                                        <ns:City>
+                                            <xsl:value-of select="City"/>
+                                        </ns:City>
+                                        <ns:PIN>
+                                            <xsl:value-of select="PIN"/>
+                                        </ns:PIN>
+                                        <ns:State>
+                                            <xsl:value-of select="State"/>
+                                        </ns:State>
+                                        <ns:Country>
+                                            <xsl:value-of select="Country"/>
+                                        </ns:Country>
+                                        <ns:Spouse>
+                                            <xsl:value-of select="Spouse"/>
+                                        </ns:Spouse>
+                                        <ns:Children>
+                                            <xsl:value-of select="Children"/>
+                                        </ns:Children>
+                                        <ns:PassportDetails>
+                                            <xsl:value-of select="PassportDetails"/>
+                                        </ns:PassportDetails>
+                                    </ns:EmployeePersonalDetails>
+                                </xsl:for-each>
+                            </xsl:template>
+                        </Input-Binding>
+                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx3="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd7" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd3">
+                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx3="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd7" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd3" match="/*">
+                                <RESTResponse>
+                                    <xsl:if test="$End/Response/JsonString">
+                                        <asciiContent>
+                                            <xsl:value-of select="$End/Response/JsonString"/>
+                                        </asciiContent>
+                                    </xsl:if>
+                                </RESTResponse>
+                            </xsl:template>
+                        </Output-Binding>
+                    </Binding>
+                    <Binding path="http://localhost:7896/updateFinance/UpdateFinancial" process="/REST/EmployeeInfoPortal/RestMethodBindings/UpdateFinanceDetails.process">
+                        <RESTResponseHeader>
+                            <xsd:element name="Headers">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </RESTResponseHeader>
+                        <Input-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" match="/*">
+                                <xsl:for-each select="$Input-Binding/params/query">
+                                    <ns:Finance>
+                                        <xsl:if test="KBGID">
+                                            <ns:KBGID>
+                                                <xsl:value-of select="KBGID"/>
+                                            </ns:KBGID>
+                                        </xsl:if>
+                                        <xsl:if test="FullName">
+                                            <ns:FullName>
+                                                <xsl:value-of select="FullName"/>
+                                            </ns:FullName>
+                                        </xsl:if>
+                                        <xsl:if test="PAN">
+                                            <ns:PAN>
+                                                <xsl:value-of select="PAN"/>
+                                            </ns:PAN>
+                                        </xsl:if>
+                                        <xsl:if test="PayBand">
+                                            <ns:Payband>
+                                                <xsl:value-of select="PayBand"/>
+                                            </ns:Payband>
+                                        </xsl:if>
+                                        <xsl:if test="Salary">
+                                            <ns:Salary>
+                                                <xsl:value-of select="Salary"/>
+                                            </ns:Salary>
+                                        </xsl:if>
+                                        <xsl:if test="Allowances">
+                                            <ns:Allowances>
+                                                <xsl:value-of select="Allowances"/>
+                                            </ns:Allowances>
+                                        </xsl:if>
+                                        <xsl:if test="Retirals">
+                                            <ns:Retirals>
+                                                <xsl:value-of select="Retirals"/>
+                                            </ns:Retirals>
+                                        </xsl:if>
+                                        <xsl:if test="Bonus">
+                                            <ns:Bonus>
+                                                <xsl:value-of select="Bonus"/>
+                                            </ns:Bonus>
+                                        </xsl:if>
+                                    </ns:Finance>
+                                </xsl:for-each>
+                            </xsl:template>
+                        </Input-Binding>
+                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:ns="http://xmlns.tibco.com/bw/activity/xml/render/bytesEnvelope/2003/05" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx3="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd7" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd2">
+                            <xsl:template xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://xmlns.tibco.com/bw/activity/xml/render/bytesEnvelope/2003/05" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx3="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd7" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd2" match="/*">
+                                <RESTResponse>
+                                    <xsl:if test="$End/Response/JsonString">
+                                        <asciiContent>
+                                            <xsl:value-of select="$End/Response/JsonString"/>
+                                        </asciiContent>
+                                    </xsl:if>
+                                </RESTResponse>
+                            </xsl:template>
+                        </Output-Binding>
+                    </Binding>
+                    <Binding path="http://localhost:7896/updateProject/UpdateProject" process="/REST/EmployeeInfoPortal/RestMethodBindings/UpdateProjectAssignment.process">
+                        <RESTResponseHeader>
+                            <xsd:element name="Headers">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </RESTResponseHeader>
+                        <Input-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" match="/*">
+                                <xsl:for-each select="$Input-Binding/params/query">
+                                    <ns:ProjectAssignment>
+                                        <ns:OracleID>
+                                            <xsl:value-of select="OracleID"/>
+                                        </ns:OracleID>
+                                        <ns:Bllability>
+                                            <xsl:value-of select="Billability"/>
+                                        </ns:Bllability>
+                                        <ns:Role>
+                                            <xsl:value-of select="Role"/>
+                                        </ns:Role>
+                                        <ns:Designation>
+                                            <xsl:value-of select="Designation"/>
+                                        </ns:Designation>
+                                        <ns:PID>
+                                            <xsl:value-of select="PID"/>
+                                        </ns:PID>
+                                        <ns:ProjectName>
+                                            <xsl:value-of select="ProjectName"/>
+                                        </ns:ProjectName>
+                                        <ns:PIDStartDate>
+                                            <xsl:value-of select="PIDStartDate"/>
+                                        </ns:PIDStartDate>
+                                        <ns:PIDEndDate>
+                                            <xsl:value-of select="PIDEndDate"/>
+                                        </ns:PIDEndDate>
+                                    </ns:ProjectAssignment>
+                                </xsl:for-each>
+                            </xsl:template>
+                        </Input-Binding>
+                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx3="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd7" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd">
+                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx3="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd7" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd" match="/*">
+                                <RESTResponse>
+                                    <xsl:if test="$End/Response/JsonString">
+                                        <asciiContent>
+                                            <xsl:value-of select="$End/Response/JsonString"/>
+                                        </asciiContent>
+                                    </xsl:if>
+                                </RESTResponse>
+                            </xsl:template>
+                        </Output-Binding>
+                    </Binding>
+                    <Binding path="http://localhost:7896/deleteEmp/DeleteEmp" process="/REST/EmployeeInfoPortal/RestMethodBindings/DeleteEmployee.process">
+                        <RESTResponseHeader>
+                            <xsd:element name="Headers">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </RESTResponseHeader>
+                        <Input-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema" match="/*">
+                                <root>
+                                    <EmpID>
+                                        <xsl:value-of select="$Input-Binding/params/query/EmpID"/>
+                                    </EmpID>
+                                </root>
+                            </xsl:template>
+                        </Input-Binding>
+                        <Output-Binding xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://schemas.tibco.com/bw/plugins/xml/5.0/RESTJSONExceptions" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:pfx5="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx4="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd7" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://schemas.tibco.com/bw/plugins/xml/5.0/RESTJSONExceptions" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx5="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx4="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd7" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" match="/*">
+                                <RESTResponse>
+                                    <xsl:if test="$End/Response/JsonString">
+                                        <asciiContent>
+                                            <xsl:value-of select="$End/Response/JsonString"/>
+                                        </asciiContent>
+                                    </xsl:if>
+                                </RESTResponse>
+                            </xsl:template>
+                        </Output-Binding>
+                    </Binding>
+                    <Binding path="http://localhost:7896/createEmployee/CreateEmp" process="/REST/EmployeeInfoPortal/RestMethodBindings/CreateEmployeeData.process">
+                        <RESTResponseHeader>
+                            <xsd:element name="Headers">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </RESTResponseHeader>
+                        <Input-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                            <xsl:template xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd5" xmlns:xsd="http://www.w3.org/2001/XMLSchema" match="/*">
+                                <ns:AllDetails>
+                                    <ns:Employee>
+                                        <ns:EmpID>
+                                            <xsl:value-of select="$Input-Binding/params/query/EmpID"/>
+                                        </ns:EmpID>
+                                        <ns:FullName>
+                                            <xsl:value-of select="$Input-Binding/params/query/FullName"/>
+                                        </ns:FullName>
+                                        <ns:Designation>
+                                            <xsl:value-of select="$Input-Binding/params/query/Designation"/>
+                                        </ns:Designation>
+                                        <ns:OracleID>
+                                            <xsl:value-of select="$Input-Binding/params/query/OracleID"/>
+                                        </ns:OracleID>
+                                        <ns:KBGID>
+                                            <xsl:value-of select="$Input-Binding/params/query/KBGID"/>
+                                        </ns:KBGID>
+                                    </ns:Employee>
+                                    <ns:ProjectAssignment>
+                                        <ns:Billability>
+                                            <xsl:value-of select="$Input-Binding/params/query/Billability"/>
+                                        </ns:Billability>
+                                        <ns:Role>
+                                            <xsl:value-of select="$Input-Binding/params/query/Role"/>
+                                        </ns:Role>
+                                        <ns:PID>
+                                            <xsl:value-of select="$Input-Binding/params/query/PID"/>
+                                        </ns:PID>
+                                        <ns:ProjectName>
+                                            <xsl:value-of select="$Input-Binding/params/query/ProjectName"/>
+                                        </ns:ProjectName>
+                                        <ns:PIDStartDate>
+                                            <xsl:value-of select="$Input-Binding/params/query/PIDStartDate"/>
+                                        </ns:PIDStartDate>
+                                        <ns:PIDEndDate>
+                                            <xsl:value-of select="$Input-Binding/params/query/PIDEndDate"/>
+                                        </ns:PIDEndDate>
+                                    </ns:ProjectAssignment>
+                                    <ns:EmployeePersonalDetails>
+                                        <ns:FirstName>
+                                            <xsl:value-of select="$Input-Binding/params/query/FirstName"/>
+                                        </ns:FirstName>
+                                        <ns:SurName>
+                                            <xsl:value-of select="$Input-Binding/params/query/SurName"/>
+                                        </ns:SurName>
+                                        <ns:DOJ>
+                                            <xsl:value-of select="$Input-Binding/params/query/DOJ"/>
+                                        </ns:DOJ>
+                                        <ns:DOB>
+                                            <xsl:value-of select="$Input-Binding/params/query/DOB"/>
+                                        </ns:DOB>
+                                        <ns:AddLine1>
+                                            <xsl:value-of select="$Input-Binding/params/query/AddLine1"/>
+                                        </ns:AddLine1>
+                                        <ns:AddLine2>
+                                            <xsl:value-of select="$Input-Binding/params/query/AddLine2"/>
+                                        </ns:AddLine2>
+                                        <ns:City>
+                                            <xsl:value-of select="$Input-Binding/params/query/City"/>
+                                        </ns:City>
+                                        <ns:PIN>
+                                            <xsl:value-of select="$Input-Binding/params/query/PIN"/>
+                                        </ns:PIN>
+                                        <ns:State>
+                                            <xsl:value-of select="$Input-Binding/params/query/State"/>
+                                        </ns:State>
+                                        <ns:Country>
+                                            <xsl:value-of select="$Input-Binding/params/query/Country"/>
+                                        </ns:Country>
+                                        <ns:Spouse>
+                                            <xsl:value-of select="$Input-Binding/params/query/Spouse"/>
+                                        </ns:Spouse>
+                                        <ns:Children>
+                                            <xsl:value-of select="$Input-Binding/params/query/Children"/>
+                                        </ns:Children>
+                                        <ns:PassportDetails>
+                                            <xsl:value-of select="$Input-Binding/params/query/PassportDetails"/>
+                                        </ns:PassportDetails>
+                                    </ns:EmployeePersonalDetails>
+                                    <ns:Finance>
+                                        <ns:PAN>
+                                            <xsl:value-of select="$Input-Binding/params/query/PAN"/>
+                                        </ns:PAN>
+                                        <ns:PayBand>
+                                            <xsl:value-of select="$Input-Binding/params/query/PayBand"/>
+                                        </ns:PayBand>
+                                        <ns:Salary>
+                                            <xsl:value-of select="$Input-Binding/params/query/Salary"/>
+                                        </ns:Salary>
+                                        <ns:Allowances>
+                                            <xsl:value-of select="$Input-Binding/params/query/Allowances"/>
+                                        </ns:Allowances>
+                                        <ns:Retirals>
+                                            <xsl:value-of select="$Input-Binding/params/query/Retirals"/>
+                                        </ns:Retirals>
+                                        <ns:Bonus>
+                                            <xsl:value-of select="$Input-Binding/params/query/Bonus"/>
+                                        </ns:Bonus>
+                                    </ns:Finance>
+                                </ns:AllDetails>
+                            </xsl:template>
+                        </Input-Binding>
+                        <Output-Binding xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:ns="http://xmlns.tibco.com/bw/activity/xml/render/bytesEnvelope/2003/05" xmlns:pfx5="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx4="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd7" xmlns:pfx3="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd2" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd5">
+                            <xsl:template xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://xmlns.tibco.com/bw/activity/xml/render/bytesEnvelope/2003/05" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx5="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd6" xmlns:pfx4="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd7" xmlns:pfx3="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:pfx2="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd2" xmlns:pfx="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd5" match="/*">
+                                <RESTResponse>
+                                    <xsl:if test="$End/Response/JsonString">
+                                        <asciiContent>
+                                            <xsl:value-of select="$End/Response/JsonString"/>
+                                        </asciiContent>
+                                    </xsl:if>
+                                </RESTResponse>
+                            </xsl:template>
+                        </Output-Binding>
+                    </Binding>
+                </OuterBinding>
+            </RestService>
+        </config>
+        <pd:inputBindings>
+            <ResponseActivityInput/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>HTTP Receiver</pd:from>
+        <pd:to>REST Dispatch and Reply</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>REST Dispatch and Reply</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="com/tibco/pe/commands">
+    <pd:name>TibUnit/CodeCoverageReport.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startX>49</pd:startX>
+    <pd:startY>51</pd:startY>
+    <pd:returnBindings>
+        <xsl:copy-of select="$Processes/processes"/>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="processes">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="process" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="processName" type="xsd:string"/>
+                                <xsd:element name="createdCount" type="xsd:int"/>
+                                <xsd:element name="errorCount" type="xsd:int"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>493</pd:endX>
+    <pd:endY>50</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1454644753538</pd:targetNamespace>
+    <pd:activity name="GetProcesses">
+        <pd:type>com.tibco.pe.core.EngineCommandActivity</pd:type>
+        <pd:resourceType>ae.activities.enginecommand</pd:resourceType>
+        <pd:x>159</pd:x>
+        <pd:y>51</pd:y>
+        <config>
+            <command>GetProcessDefinitionStats</command>
+        </config>
+        <pd:inputBindings>
+            <ns1:input xmlns:ns1="com/tibco/pe/commands"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Processes">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>316</pd:x>
+        <pd:y>51</pd:y>
+        <config>
+            <element>
+                <xsd:element name="processes">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="process" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="processName" type="xsd:string"/>
+                                        <xsd:element name="createdCount" type="xsd:int"/>
+                                        <xsd:element name="errorCount" type="xsd:int"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <processes>
+                <xsl:for-each select="$GetProcesses/pfx:output/pfx:GetProcessDefinitionStats">
+                    <xsl:if test="not(starts-with(ProcessDefinitionName, 'TibUnit/')) and&#xA;not(starts-with(ProcessDefinitionName, $_globalVariables/ns:GlobalVariables/TibUnit/TestSuiteFolder))">
+                        <process>
+                            <processName>
+                                <xsl:value-of select="ProcessDefinitionName"/>
+                            </processName>
+                            <createdCount>
+                                <xsl:value-of select="NumberCreated"/>
+                            </createdCount>
+                            <errorCount>
+                                <xsl:value-of select="current()/NumberSuspended + current()/NumberAborted + current()/NumberCheckpointed + current()/NumberQueued"/>
+                            </errorCount>
+                        </process>
+                    </xsl:if>
+                </xsl:for-each>
+            </processes>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetProcesses</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetProcesses</pd:from>
+        <pd:to>Processes</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Processes</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

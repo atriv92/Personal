@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd"
+	 targetNamespace="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="ProjectAssignment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="OracleID"/>
+				<xs:element ref="Bllability"/>
+				<xs:element ref="Role"/>
+				<xs:element ref="Designation"/>
+				<xs:element ref="PID"/>
+				<xs:element ref="ProjectName"/>
+				<xs:element ref="PIDStartDate"/>
+				<xs:element ref="PIDEndDate"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OracleID" type="xs:string"/>
+	<xs:element name="Bllability" type="xs:boolean"/>
+	<xs:element name="Role" type="xs:string"/>
+	<xs:element name="Designation" type="xs:string"/>
+	<xs:element name="PID" type="xs:string"/>
+	<xs:element name="ProjectName" type="xs:string"/>
+	<xs:element name="PIDStartDate" type="xs:date"/>
+	<xs:element name="PIDEndDate" type="xs:date"/>
+</xs:schema>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd4"
+	 targetNamespace="http://www.tibco.com/schemas/Assignment3/SharedResources/Schemas/Schema.xsd4"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="Employee">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="EmpID"/>
+				<xs:element ref="FullName"/>
+				<xs:element ref="Designation"/>
+				<xs:element ref="OracleID"/>
+				<xs:element ref="KBGID"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EmpID" type="xs:string"/>
+	<xs:element name="FullName" type="xs:string"/>
+	<xs:element name="Designation" type="xs:string"/>
+	<xs:element name="OracleID" type="xs:string"/>
+	<xs:element name="KBGID" type="xs:string"/>
+</xs:schema>

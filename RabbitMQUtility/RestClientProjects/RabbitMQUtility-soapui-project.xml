@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project activeEnvironment="Default" name="RePushTPG" resourceRoot="" soapui-version="4.6.4" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:RestService" wadlVersion="http://wadl.dev.java.net/2009/02" name="RePushTPG" type="rest" basePath="" definitionUrl="file:/D:/Webhub/RabbitMQUtility/rabbitmqutility/developer-zone-tibco-esb/rabbitmqutility/SharedResources/WADL/RePushTPG.wadl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/D:/Webhub/RabbitMQUtility/rabbitmqutility/developer-zone-tibco-esb/rabbitmqutility/SharedResources/WADL/RePushTPG.wadl"><con:part><con:url>file:/D:/Webhub/RabbitMQUtility/rabbitmqutility/developer-zone-tibco-esb/rabbitmqutility/SharedResources/WADL/RePushTPG.wadl</con:url><con:content><![CDATA[<application name="RePushTPG" xmlns="http://wadl.dev.java.net/2009/02">
+  <resources name="TPG" base="http://%%Connection/HTTP/CMS/Host%%:%%Connection/HTTP/CMS/Port%%">
+    <resource id="APC" path="apc">
+      <method id="Push" name="GET">
+        <request name="Request">
+          <param name="TraceQueue" style="query" required="true" default="DefaultTraceQueue"/>
+          <param name="MainQueue" style="query" required="true" default="DefaultMainQueue"/>
+          <param name="Products" style="query" required="true" default="DefaultProductId"/>
+          <param name="FromEnv" style="query" required="true" default="TEST"/>
+          <param name="ToEnv" style="query" required="true" default="TEST"/>
+        </request>
+        <response name="Response"/>
+      </method>
+    </resource>
+    <resource id="contentimages" path="images">
+      <method id="images" name="GET">
+        <request name="Request">
+          <param name="TraceQueue" style="query" required="true" default="TraceQueue"/>
+          <param name="MainQueue" style="query" required="true" default="MainQueue"/>
+          <param name="Products" style="query" required="true" default="Products"/>
+          <param name="FromEnv" style="query" required="true" default="FromEnv"/>
+          <param name="ToEnv" style="query" required="true" default="ToEnv"/>
+        </request>
+        <response name="Response"/>
+      </method>
+    </resource>
+    <resource id="dapc" path="dapc">
+      <method id="dapcmessage" name="GET">
+        <request name="Request">
+          <param name="TraceQueue" style="query" required="true" default="default"/>
+          <param name="MainQueue" style="query" required="true" default="default"/>
+          <param name="Products" style="query" required="true" default="default"/>
+          <param name="FromEnv" style="query" required="true" default="default"/>
+          <param name="ToEnv" style="query" required="true" default="default"/>
+        </request>
+        <response name="Response"/>
+      </method>
+    </resource>
+    <resource id="generic" path="generic">
+      <method id="GenericMethod" name="GET">
+        <request name="Request">
+          <param name="TraceQueue" style="query" required="true" default="default"/>
+          <param name="MainQueue" style="query" required="true" default="default"/>
+          <param name="Products" style="query" required="true" default="default"/>
+          <param name="FromEnv" style="query" required="true" default="default"/>
+          <param name="ToEnv" style="query" required="true" default="default"/>
+        </request>
+        <response name="Response"/>
+      </method>
+    </resource>
+    <resource id="videos" path="videos">
+      <method id="video" name="GET">
+        <request name="Request">
+          <param name="TraceQueue" style="query" required="true" default="TraceQueue"/>
+          <param name="MainQueue" style="query" required="true" default="MainQueue"/>
+          <param name="Products" style="query" required="true" default="Products"/>
+          <param name="FromEnv" style="query" required="true" default="FromEnv"/>
+          <param name="ToEnv" style="query" required="true" default="ToEnv"/>
+        </request>
+        <response name="Response"/>
+      </method>
+    </resource>
+  </resources>
+</application>]]></con:content><con:type>http://wadl.dev.java.net/2009/02</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:7911</con:endpoint></con:endpoints><con:resource name="apc" path="apc"><con:settings/><con:parameters/><con:method name="GET - Push" method="GET"><con:settings/><con:parameters><con:parameter required="true"><con:name>TraceQueue</con:name><con:value>DefaultTraceQueue</con:value><con:style>QUERY</con:style><con:default>DefaultTraceQueue</con:default></con:parameter><con:parameter required="true"><con:name>MainQueue</con:name><con:value>DefaultMainQueue</con:value><con:style>QUERY</con:style><con:default>DefaultMainQueue</con:default></con:parameter><con:parameter required="true"><con:name>Products</con:name><con:value>DefaultProductId</con:value><con:style>QUERY</con:style><con:default>DefaultProductId</con:default></con:parameter><con:parameter required="true"><con:name>FromEnv</con:name><con:value>TEST</con:value><con:style>QUERY</con:style><con:default>TEST</con:default></con:parameter><con:parameter required="true"><con:name>ToEnv</con:name><con:value>TEST</con:value><con:style>QUERY</con:style><con:default>TEST</con:default></con:parameter></con:parameters><con:request name="Request 1" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:7911</con:endpoint><con:request/><con:credentials><con:username xsi:nil="true"/><con:password xsi:nil="true"/><con:domain xsi:nil="true"/><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource><con:resource name="images" path="/images"><con:settings/><con:parameters/><con:method name="GET - images" method="GET"><con:settings/><con:parameters><con:parameter required="true"><con:name>TraceQueue</con:name><con:value>TraceQueue</con:value><con:style>QUERY</con:style><con:default>TraceQueue</con:default></con:parameter><con:parameter required="true"><con:name>MainQueue</con:name><con:value>MainQueue</con:value><con:style>QUERY</con:style><con:default>MainQueue</con:default></con:parameter><con:parameter required="true"><con:name>Products</con:name><con:value>Products</con:value><con:style>QUERY</con:style><con:default>Products</con:default></con:parameter><con:parameter required="true"><con:name>FromEnv</con:name><con:value>FromEnv</con:value><con:style>QUERY</con:style><con:default>FromEnv</con:default></con:parameter><con:parameter required="true"><con:name>ToEnv</con:name><con:value>ToEnv</con:value><con:style>QUERY</con:style><con:default>ToEnv</con:default></con:parameter></con:parameters><con:request name="Request 1" mediaType="application/json"><con:settings/><con:endpoint>http://localhost:7911</con:endpoint><con:request/><con:credentials><con:username xsi:nil="true"/><con:password xsi:nil="true"/><con:domain xsi:nil="true"/><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource><con:resource name="dapc" path="/dapc"><con:settings/><con:parameters/><con:method name="GET - dapcmessage" method="GET"><con:settings/><con:parameters><con:parameter required="true"><con:name>TraceQueue</con:name><con:value>default</con:value><con:style>QUERY</con:style><con:default>default</con:default></con:parameter><con:parameter required="true"><con:name>MainQueue</con:name><con:value>default</con:value><con:style>QUERY</con:style><con:default>default</con:default></con:parameter><con:parameter required="true"><con:name>Products</con:name><con:value>default</con:value><con:style>QUERY</con:style><con:default>default</con:default></con:parameter><con:parameter required="true"><con:name>FromEnv</con:name><con:value>default</con:value><con:style>QUERY</con:style><con:default>default</con:default></con:parameter><con:parameter required="true"><con:name>ToEnv</con:name><con:value>default</con:value><con:style>QUERY</con:style><con:default>default</con:default></con:parameter></con:parameters><con:request name="Request 1" mediaType="application/json"><con:settings/><con:endpoint>http://localhost:7911</con:endpoint><con:request/><con:credentials><con:username xsi:nil="true"/><con:password xsi:nil="true"/><con:domain xsi:nil="true"/><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource><con:resource name="generic" path="/generic"><con:settings/><con:parameters/><con:method name="GET - GenericMethod" method="GET"><con:settings/><con:parameters><con:parameter required="true"><con:name>TraceQueue</con:name><con:value>default</con:value><con:style>QUERY</con:style><con:default>default</con:default></con:parameter><con:parameter required="true"><con:name>MainQueue</con:name><con:value>default</con:value><con:style>QUERY</con:style><con:default>default</con:default></con:parameter><con:parameter required="true"><con:name>Products</con:name><con:value>default</con:value><con:style>QUERY</con:style><con:default>default</con:default></con:parameter><con:parameter required="true"><con:name>FromEnv</con:name><con:value>default</con:value><con:style>QUERY</con:style><con:default>default</con:default></con:parameter><con:parameter required="true"><con:name>ToEnv</con:name><con:value>default</con:value><con:style>QUERY</con:style><con:default>default</con:default></con:parameter></con:parameters><con:request name="Request 1" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:7911</con:endpoint><con:request/><con:credentials><con:username xsi:nil="true"/><con:password xsi:nil="true"/><con:domain xsi:nil="true"/><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource><con:resource name="videos" path="/videos"><con:settings/><con:parameters/><con:method name="GET - video" method="GET"><con:settings/><con:parameters><con:parameter required="true"><con:name>TraceQueue</con:name><con:value>TraceQueue</con:value><con:style>QUERY</con:style><con:default>TraceQueue</con:default></con:parameter><con:parameter required="true"><con:name>MainQueue</con:name><con:value>MainQueue</con:value><con:style>QUERY</con:style><con:default>MainQueue</con:default></con:parameter><con:parameter required="true"><con:name>Products</con:name><con:value>Products</con:value><con:style>QUERY</con:style><con:default>Products</con:default></con:parameter><con:parameter required="true"><con:name>FromEnv</con:name><con:value>FromEnv</con:value><con:style>QUERY</con:style><con:default>FromEnv</con:default></con:parameter><con:parameter required="true"><con:name>ToEnv</con:name><con:value>ToEnv</con:value><con:style>QUERY</con:style><con:default>ToEnv</con:default></con:parameter></con:parameters><con:request name="Request 1" mediaType="application/json"><con:settings/><con:endpoint>http://localhost:7911</con:endpoint><con:request/><con:credentials><con:username xsi:nil="true"/><con:password xsi:nil="true"/><con:domain xsi:nil="true"/><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource></con:interface><con:properties/><con:wssContainer/><con:sensitiveInformation/></con:soapui-project>

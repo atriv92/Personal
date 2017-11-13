@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="JSON" type="JSONType"/>
+	<xs:complexType name="headersType">
+		<xs:all>
+			<xs:element name="brand_id" type="xs:string" minOccurs="0"/>
+			<xs:element name="brand_name" type="xs:string" minOccurs="0"/>
+			<xs:element name="resource_id" type="xs:string" minOccurs="0"/>
+			<xs:element name="verb" type="xs:string" minOccurs="0"/>
+			<xs:element name="x-received-from" type="x-received-fromType" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="propertiesType">
+		<xs:all>
+			<xs:element name="type" type="xs:string" minOccurs="0"/>
+			<xs:element name="timestamp" type="xs:long" minOccurs="0"/>
+			<xs:element name="message_id" type="xs:string" minOccurs="0"/>
+			<xs:element name="headers" type="headersType" minOccurs="0"/>
+			<xs:element name="content_encoding" type="xs:string" minOccurs="0"/>
+			<xs:element name="content_type" type="xs:string" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="x-received-fromType">
+		<xs:all>
+			<xs:element name="uri" type="xs:string" minOccurs="0"/>
+			<xs:element name="exchange" type="xs:string" minOccurs="0"/>
+			<xs:element name="redelivered" type="xs:string" minOccurs="0"/>
+			<xs:element name="cluster-name" type="xs:string" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="JSONType">
+		<xs:sequence>
+			<xs:element name="payload_bytes" type="xs:int" minOccurs="0"/>
+			<xs:element name="redelivered" type="xs:string" minOccurs="0"/>
+			<xs:element name="exchange" type="xs:string" minOccurs="0"/>
+			<xs:element name="routing_key" type="xs:string" minOccurs="0"/>
+			<xs:element name="message_count" type="xs:short" minOccurs="0"/>
+			<xs:element name="properties" type="xs:string" minOccurs="0"/>
+			<xs:element name="payload" type="xs:string" minOccurs="0"/>
+			<xs:element name="payload_encoding" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="properties" type="xs:string"/>
+</xs:schema>

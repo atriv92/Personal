@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/DeployedVarsType" xmlns:txt="java://common.tui.CommonUtilities" xmlns:pfx="http://www.tibco.com/ns/no_namespace_schema_location/SharedResources/Schemas/RabbitMQMessages/MessageSchema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:ns1="http://www.tibco.com/pe/EngineTypes" xmlns:ns4="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns3="http://schemas.tibco.com/bw/plugins/http/5.0/httpExceptions" xmlns:pfx5="http://www.tibco.com/ns/no_namespace_schema_location/SharedResources/Schemas/RabbitMQMessageSchemas/ImageSchema.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx4="http://www.tibco.com/ns/no_namespace_schema_location/JSON_GEN_Schemas/iamgse.xsd" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx3="urn:tuinordic:schemas:product:accommodation" xmlns:pfx2="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:pfx7="http://www.tibco.com/ns/no_namespace_schema_location/SharedResources/Schemas/RabbitMQMessageSchemas/VideosSchema.xsd" xmlns:pfx6="http://www.tibco.com/ns/no_namespace_schema_location/SharedResources/Schemas/RabbitMQMessageSchemas/GenericSchema.xsd">
+    <xsd:import namespace="urn:tuinordic:schemas:product:accommodation"/>
+    <xsd:import namespace="http://www.tibco.com/ns/no_namespace_schema_location/SharedResources/Schemas/RabbitMQMessages/MessageSchema.xsd" schemaLocation="/SharedResources/Schemas/MessageSchema.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/ns/no_namespace_schema_location/JSON_GEN_Schemas/iamgse.xsd" schemaLocation="/SharedResources/Schemas/iamgse.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/ns/no_namespace_schema_location/SharedResources/Schemas/RabbitMQMessageSchemas/ImageSchema.xsd" schemaLocation="/SharedResources/Schemas/RabbitMQMessageSchemas/ImageSchema.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/ns/no_namespace_schema_location/SharedResources/Schemas/RabbitMQMessageSchemas/GenericSchema.xsd" schemaLocation="/SharedResources/Schemas/RabbitMQMessageSchemas/GenericSchema.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/ns/no_namespace_schema_location/SharedResources/Schemas/RabbitMQMessageSchemas/VideosSchema.xsd" schemaLocation="/SharedResources/Schemas/RabbitMQMessageSchemas/VideosSchema.xsd"/>
+    <pd:name>Re-Push/RestMethodBindings/Generic.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="Inputs">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="traceQueueName" type="xsd:string"/>
+                    <xsd:element name="mainQueueName" type="xsd:string"/>
+                    <xsd:element name="products" type="xsd:string"/>
+                    <xsd:element name="FromEnv" type="xsd:string"/>
+                    <xsd:element name="ToEnv" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>320</pd:startX>
+    <pd:startY>26</pd:startY>
+    <pd:returnBindings>
+        <output>
+            <xsl:choose>
+                <xsl:when test="not((upper-case($Start/Inputs/FromEnv)='TEST'&#xA;or&#xA;upper-case($Start/Inputs/FromEnv)='UAT'&#xA;or&#xA;upper-case($Start/Inputs/FromEnv)='PROD')&#xA;and&#xA;(upper-case($Start/Inputs/ToEnv)='TEST'&#xA;or&#xA;upper-case($Start/Inputs/ToEnv)='UAT'&#xA;or&#xA;upper-case($Start/Inputs/ToEnv)='PROD'))">
+                    <response>
+                        <xsl:value-of select="'Environment Should be one of TEST, UAT or PROD'"/>
+                    </response>
+                </xsl:when>
+                <xsl:when test="string-length($SendMessages/root/response)>0">
+                    <response>
+                        <xsl:value-of select="$SendMessages/root/response"/>
+                    </response>
+                </xsl:when>
+                <xsl:when test="$GetMessages/response/status='FAILURE'">
+                    <response>
+                        <xsl:value-of select="$GetMessages/response/responseString"/>
+                    </response>
+                </xsl:when>
+                <xsl:when test="exists($_error/ns1:ErrorReport/StackTrace)">
+                    <response>
+                        <xsl:value-of select="$_error/ns1:ErrorReport/StackTrace"/>
+                    </response>
+                </xsl:when>
+                <xsl:when test="$GetMessages/response/status='SUCCESS' and count($ParseMessage/ns2:ActivityOutputClass/Messages/Message)=0">
+                    <response>
+                        <xsl:value-of select="'Messages corresponding to mentioned products does not exist in the mentioned trace queue'"/>
+                    </response>
+                </xsl:when>
+                <xsl:otherwise>
+                    <response>
+                        <xsl:value-of select="'Some error occurred. Please contact admin'"/>
+                    </response>
+                </xsl:otherwise>
+            </xsl:choose>
+        </output>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="output">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="response" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>322</pd:endX>
+    <pd:endY>160</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1470996082947</pd:targetNamespace>
+    <pd:group name="Group">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>43</pd:x>
+        <pd:y>233</pd:y>
+        <pd:width>560</pd:width>
+        <pd:height>174</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>inputLoop</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:over>$ParseMessage/ns2:ActivityOutputClass/Messages/Message</pd:over>
+            <pd:iterationElementSlot>message</pd:iterationElementSlot>
+            <pd:indexSlot>idx</pd:indexSlot>
+            <pd:activityOutputName/>
+            <pd:accumulateOutput>false</pd:accumulateOutput>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>RenderProperties</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>SendMessages</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>RenderProperties</pd:from>
+            <pd:to>MapInts</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>RenderPayload</pd:from>
+            <pd:to>SendMessages</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>MapInts</pd:from>
+            <pd:to>ReplaceInts</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>ReplaceInts</pd:from>
+            <pd:to>RenderPayload</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="RenderPayload">
+            <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+            <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+            <pd:x>411</pd:x>
+            <pd:y>339</pd:y>
+            <config>
+                <SchemaType>xsdType</SchemaType>
+                <BadgerfishCheck>false</BadgerfishCheck>
+                <removeRootElementForInput>true</removeRootElementForInput>
+                <ActivityInputEditor>
+                    <xsd:element name="Message">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="routing_key" type="xsd:string"/>
+                                <xsd:element name="payload" type="xsd:string"/>
+                                <xsd:element name="payload_encoding" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </ActivityInputEditor>
+            </config>
+            <pd:inputBindings>
+                <ns2:ActivityInputClass>
+                    <xsl:for-each select="$message/Message">
+                        <Message>
+                            <routing_key>
+                                <xsl:value-of select="$Start/Inputs/mainQueueName"/>
+                            </routing_key>
+                            <payload>
+                                <xsl:value-of select="payload"/>
+                            </payload>
+                            <payload_encoding>
+                                <xsl:value-of select="payload_encoding"/>
+                            </payload_encoding>
+                        </Message>
+                    </xsl:for-each>
+                </ns2:ActivityInputClass>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="SendMessages">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>512</pd:x>
+            <pd:y>339</pd:y>
+            <config>
+                <processName>/Re-Push/CommonProcesses/SendMessages.process</processName>
+            </config>
+            <pd:inputBindings>
+                <Inputs>
+                    <RequestURI>
+                        <xsl:value-of select="concat('/api/exchanges/',$_globalVariables/ns:GlobalVariables/Services/HubRabbitMQ/VirtualHost,'/',$ParseMessage/ns2:ActivityOutputClass/Messages/Message[1]/exchange,'/publish')"/>
+                    </RequestURI>
+                    <PostData>
+                        <xsl:value-of select="txt:replace(concat($ReplaceInts/javaCodeActivityOutput/out_var_1,$RenderPayload/ns2:ActivityOutputClass/jsonString), '}{',',')"/>
+                    </PostData>
+                    <Env>
+                        <xsl:value-of select="$Start/Inputs/ToEnv"/>
+                    </Env>
+                </Inputs>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="RenderProperties">
+            <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+            <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+            <pd:x>128</pd:x>
+            <pd:y>336</pd:y>
+            <config>
+                <SchemaType>generic</SchemaType>
+                <BadgerfishCheck>false</BadgerfishCheck>
+                <removeRootElementForInput>false</removeRootElementForInput>
+                <ActivityInputEditor>
+                    <xsd:element name="root">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="properties" type="xsd:string"/>
+                                <xsd:element name="routing_key" type="xsd:string"/>
+                                <xsd:element name="payload" type="xsd:string"/>
+                                <xsd:element name="payload_encoding" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </ActivityInputEditor>
+            </config>
+            <pd:inputBindings>
+                <ns2:ActivityInputClass>
+                    <xmlString>
+                        <xsl:value-of select="tib:render-xml($message/Message/properties)"/>
+                    </xmlString>
+                </ns2:ActivityInputClass>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="MapInts">
+            <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+            <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:x>222</pd:x>
+            <pd:y>339</pd:y>
+            <config>
+                <element>
+                    <xsd:element name="group">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" minOccurs="0" maxOccurs="unbounded">
+                                    <xsd:complexType>
+                                        <xsd:sequence>
+                                            <xsd:element name="from" type="xsd:string"/>
+                                            <xsd:element name="to" type="xsd:string"/>
+                                        </xsd:sequence>
+                                    </xsd:complexType>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </element>
+            </config>
+            <pd:inputBindings>
+                <xsl:variable name="var" select="tib:tokenize($RenderProperties/ns2:ActivityOutputClass/jsonString,',')"/>
+                <group>
+                    <xsl:for-each select="$var">
+                        <xsl:variable name="var1" select="tib:tokenize(current(), ':')"/>
+                        <xsl:for-each select="$var1">
+                            <xsl:if test="substring(., 2, string-length(.)-2)>0&#xA;or&#xA;substring(., 2, string-length(.)-2)&lt;0&#xA;or&#xA;substring(., 2, string-length(.)-2)=0">
+                                <value>
+                                    <from>
+                                        <xsl:value-of select="."/>
+                                    </from>
+                                    <to>
+                                        <xsl:value-of select="substring(., 2, string-length(.)-2)"/>
+                                    </to>
+                                </value>
+                            </xsl:if>
+                        </xsl:for-each>
+                    </xsl:for-each>
+                </group>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="ReplaceInts">
+            <pd:type>com.tibco.plugin.java.JavaActivity</pd:type>
+            <pd:resourceType>ae.javapalette.javaActivity</pd:resourceType>
+            <pd:x>310</pd:x>
+            <pd:y>339</pd:y>
+            <config>
+                <fileName>GenericReplaceInts</fileName>
+                <packageName>RePush.RestMethodBindings.Generic</packageName>
+                <fullsource>package RePush.RestMethodBindings.Generic;
+import java.util.*;
+import java.io.*;
+public class GenericReplaceInts{
+/****** START SET/GET METHOD, DO NOT MODIFY *****/
+	protected String in_var_1 = "";
+	protected String FromString = "";
+	protected String ToString = "";
+	protected String out_var_1 = "";
+	public String getin_var_1() {
+		return in_var_1;
+	}
+	public void setin_var_1(String val) {
+		in_var_1 = val;
+	}
+	public String getFromString() {
+		return FromString;
+	}
+	public void setFromString(String val) {
+		FromString = val;
+	}
+	public String getToString() {
+		return ToString;
+	}
+	public void setToString(String val) {
+		ToString = val;
+	}
+	public String getout_var_1() {
+		return out_var_1;
+	}
+	public void setout_var_1(String val) {
+		out_var_1 = val;
+	}
+/****** END SET/GET METHOD, DO NOT MODIFY *****/
+	public GenericReplaceInts() {
+	}
+	public void invoke() throws Exception {
+/* Available Variables: DO NOT MODIFY
+	In  : String in_var_1
+	In  : String FromString
+	In  : String ToString
+	Out : String out_var_1
+* Available Variables: DO NOT MODIFY *****/
+
+StringBuilder encodedJSON = new StringBuilder();
+
+int codePoint;
+int ch;
+String hex;
+
+for (int i = 0; i &lt; in_var_1.length(); i++) {
+  ch = in_var_1.charAt(i);
+  if (ch &gt; 128 &amp;&amp; com.tibco.spar.json.JChar.NEED_ESCAPE_CHARS.contains(new Integer(ch))) {
+    encodedJSON.append("\\u");
+    hex = Integer.toHexString(ch);
+    for (int p = hex.length(); p &lt; 4; p++) {
+      encodedJSON.append('0');
+    }
+    encodedJSON.append(hex);
+  } else {
+    encodedJSON.append(in_var_1.charAt(i));
+  }
+}
+
+
+com.tibco.spar.json.JChar.NEED_ESCAPE_CHARS.remove(new Integer(8211));
+
+//out_var_1 = encodedJSON.toString();
+out_var_1 = encodedJSON.toString().replaceAll("&amp;nbsp;", "&amp;#160");
+
+String splitter="|"; 
+        StringTokenizer st1 = new StringTokenizer(FromString, splitter); 
+        StringTokenizer st2 = new StringTokenizer(ToString, splitter); 
+
+        while(st1.hasMoreElements()){ 
+                out_var_1 = out_var_1.replaceAll(st1.nextElement().toString(),st2.nextElement().toString()); 
+        }
+
+}
+}
+</fullsource>
+                <inputData>
+                    <row>
+                        <fieldName>in_var_1</fieldName>
+                        <fieldType>string</fieldType>
+                        <fieldRequired>optional</fieldRequired>
+                    </row>
+                    <row>
+                        <fieldName>FromString</fieldName>
+                        <fieldType>string</fieldType>
+                        <fieldRequired>optional</fieldRequired>
+                    </row>
+                    <row>
+                        <fieldName>ToString</fieldName>
+                        <fieldType>string</fieldType>
+                        <fieldRequired>optional</fieldRequired>
+                    </row>
+                </inputData>
+                <outputData>
+                    <row>
+                        <fieldName>out_var_1</fieldName>
+                        <fieldType>string</fieldType>
+                        <fieldRequired>optional</fieldRequired>
+                    </row>
+                </outputData>
+                <byteCode>
+                    <class>
+                        <name>GenericReplaceInts</name>
+                        <byteCode>yv66vgAAADMAeAkAHgA9CQAeAD4JAB4APwkAHgBACgAfAEEIAEIHAEMKAAcAQQoARABFCgBEAEYJAEcASAcASQoADABKCwBLAEwIAE0KAAcATgoADABPCgAHAFALAEsAUQoABwBSCABTCABUCgBEAFUIAFYHAFcKABkAWAoAGQBZCgAZAFoKAB8AUgcAWwcAXAEACGluX3Zhcl8xAQASTGphdmEvbGFuZy9TdHJpbmc7AQAKRnJvbVN0cmluZwEACFRvU3RyaW5nAQAJb3V0X3Zhcl8xAQALZ2V0aW5fdmFyXzEBABQoKUxqYXZhL2xhbmcvU3RyaW5nOwEABENvZGUBAA9MaW5lTnVtYmVyVGFibGUBAAtzZXRpbl92YXJfMQEAFShMamF2YS9sYW5nL1N0cmluZzspVgEADWdldEZyb21TdHJpbmcBAA1zZXRGcm9tU3RyaW5nAQALZ2V0VG9TdHJpbmcBAAtzZXRUb1N0cmluZwEADGdldG91dF92YXJfMQEADHNldG91dF92YXJfMQEABjxpbml0PgEAAygpVgEABmludm9rZQEADVN0YWNrTWFwVGFibGUHAFsHAEMHAF0HAFcBAApFeGNlcHRpb25zBwBeAQAKU291cmNlRmlsZQEAF0dlbmVyaWNSZXBsYWNlSW50cy5qYXZhDAAgACEMACIAIQwAIwAhDAAkACEMADEAMgEAAAEAF2phdmEvbGFuZy9TdHJpbmdCdWlsZGVyBwBdDABfAGAMAGEAYgcAYwwAZABlAQARamF2YS9sYW5nL0ludGVnZXIMADEAZgcAZwwAaABpAQACXHUMAGoAawwAbABtDABqAG4MAG8AaQwAcAAmAQAGJm5ic3A7AQAFJiMxNjAMAHEAcgEAAXwBABlqYXZhL3V0aWwvU3RyaW5nVG9rZW5pemVyDAAxAHMMAHQAdQwAdgB3AQA0UmVQdXNoL1Jlc3RNZXRob2RCaW5kaW5ncy9HZW5lcmljL0dlbmVyaWNSZXBsYWNlSW50cwEAEGphdmEvbGFuZy9PYmplY3QBABBqYXZhL2xhbmcvU3RyaW5nAQATamF2YS9sYW5nL0V4Y2VwdGlvbgEABmxlbmd0aAEAAygpSQEABmNoYXJBdAEABChJKUMBABljb20vdGliY28vc3Bhci9qc29uL0pDaGFyAQARTkVFRF9FU0NBUEVfQ0hBUlMBAA9MamF2YS91dGlsL1NldDsBAAQoSSlWAQANamF2YS91dGlsL1NldAEACGNvbnRhaW5zAQAVKExqYXZhL2xhbmcvT2JqZWN0OylaAQAGYXBwZW5kAQAtKExqYXZhL2xhbmcvU3RyaW5nOylMamF2YS9sYW5nL1N0cmluZ0J1aWxkZXI7AQALdG9IZXhTdHJpbmcBABUoSSlMamF2YS9sYW5nL1N0cmluZzsBABwoQylMamF2YS9sYW5nL1N0cmluZ0J1aWxkZXI7AQAGcmVtb3ZlAQAIdG9TdHJpbmcBAApyZXBsYWNlQWxsAQA4KExqYXZhL2xhbmcvU3RyaW5nO0xqYXZhL2xhbmcvU3RyaW5nOylMamF2YS9sYW5nL1N0cmluZzsBACcoTGphdmEvbGFuZy9TdHJpbmc7TGphdmEvbGFuZy9TdHJpbmc7KVYBAA9oYXNNb3JlRWxlbWVudHMBAAMoKVoBAAtuZXh0RWxlbWVudAEAFCgpTGphdmEvbGFuZy9PYmplY3Q7ACEAHgAfAAAABAAEACAAIQAAAAQAIgAhAAAABAAjACEAAAAEACQAIQAAAAoAAQAlACYAAQAnAAAAHQABAAEAAAAFKrQAAbAAAAABACgAAAAGAAEAAAALAAEAKQAqAAEAJwAAACIAAgACAAAABiortQABsQAAAAEAKAAAAAoAAgAAAA4ABQAPAAEAKwAmAAEAJwAAAB0AAQABAAAABSq0AAKwAAAAAQAoAAAABgABAAAAEQABACwAKgABACcAAAAiAAIAAgAAAAYqK7UAArEAAAABACgAAAAKAAIAAAAUAAUAFQABAC0AJgABACcAAAAdAAEAAQAAAAUqtAADsAAAAAEAKAAAAAYAAQAAABcAAQAuACoAAQAnAAAAIgACAAIAAAAGKiu1AAOxAAAAAQAoAAAACgACAAAAGgAFABsAAQAvACYAAQAnAAAAHQABAAEAAAAFKrQABLAAAAABACgAAAAGAAEAAAAdAAEAMAAqAAEAJwAAACIAAgACAAAABiortQAEsQAAAAEAKAAAAAoAAgAAACAABQAhAAEAMQAyAAEAJwAAAEkAAgABAAAAHSq3AAUqEga1AAEqEga1AAIqEga1AAMqEga1AASxAAAAAQAoAAAAGgAGAAAAIwAEAAYACgAHABAACAAWAAkAHAAkAAEAMwAyAAIAJwAAAbgABAAIAAAA67sAB1m3AAhMAzYFFQUqtAABtgAJogBsKrQAARUFtgAKPh0RAICkAEeyAAu7AAxZHbcADbkADgIAmQA0KxIPtgAQVx24ABE6BBkEtgAJNgYVBgeiABArEDC2ABJXhAYBp//wKxkEtgAQV6cAESsqtAABFQW2AAq2ABJXhAUBp/+OsgALuwAMWREgE7cADbkAEwIAVyortgAUEhUSFrYAF7UABBIYOgW7ABlZKrQAAhkFtwAaOga7ABlZKrQAAxkFtwAaOgcZBrYAG5kAISoqtAAEGQa2ABy2AB0ZB7YAHLYAHbYAF7UABKf/3bEAAAACACgAAABSABQAAAAtAAgAMwAXADQAIQA1ADsANgBCADcASAA4AFUAOQBcADgAYgA7AGwAPQB6ADMAgABCAJMARQCiAEcApgBIALUASQDEAEsAzABMAOoATwA0AAAAYwAI/wALAAYHADUHADYAAAABAAD/AEMABwcANQcANgABBwA3AQEAAPoAEv8ACQAGBwA1BwA2AAEAAQAADf8ABQACBwA1BwA2AAD/AEMACAcANQcANgAAAAcANwcAOAcAOAAAJQA5AAAABAABADoAAQA7AAAAAgA8</byteCode>
+                    </class>
+                </byteCode>
+            </config>
+            <pd:inputBindings>
+                <xsl:variable name="from" select="$MapInts/group/value"/>
+                <javaCodeActivityInput>
+                    <in_var_1>
+                        <xsl:value-of select="$RenderProperties/ns2:ActivityOutputClass/jsonString"/>
+                    </in_var_1>
+                    <FromString>
+                        <xsl:value-of select="tib:concat-sequence-format($MapInts/group/value/from,&quot;|&quot;)"/>
+                    </FromString>
+                    <ToString>
+                        <xsl:value-of select="tib:concat-sequence-format($MapInts/group/value/to,&quot;|&quot;)"/>
+                    </ToString>
+                </javaCodeActivityInput>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>193</pd:x>
+        <pd:y>160</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="CreatePostDataGet">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>448</pd:x>
+        <pd:y>26</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <removeRootElementForInput>true</removeRootElementForInput>
+            <ActivityInputEditor>
+                <xsd:element name="postdata">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="count" type="xsd:string"/>
+                            <xsd:element name="requeue" type="xsd:boolean"/>
+                            <xsd:element name="encoding" type="xsd:string"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </ActivityInputEditor>
+        </config>
+        <pd:inputBindings>
+            <ns2:ActivityInputClass>
+                <postdata>
+                    <xsl:choose>
+                        <xsl:when test="contains($Start/Inputs/products, 'P-')">
+                            <count>
+                                <xsl:value-of select="-1"/>
+                            </count>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <count>
+                                <xsl:value-of select="$Start/Inputs/products"/>
+                            </count>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    <requeue>
+                        <xsl:value-of select="true()"/>
+                    </requeue>
+                    <encoding>
+                        <xsl:value-of select="'auto'"/>
+                    </encoding>
+                </postdata>
+            </ns2:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetMessages">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>448</pd:x>
+        <pd:y>159</pd:y>
+        <config>
+            <processName>/Re-Push/CommonProcesses/GetMessages.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <Environment>
+                    <xsl:value-of select="$Start/Inputs/FromEnv"/>
+                </Environment>
+                <PostData>
+                    <xsl:value-of select="$CreatePostDataGet/ns2:ActivityOutputClass/jsonString"/>
+                </PostData>
+                <RequestURI>
+                    <xsl:value-of select="concat('/api/queues/',$_globalVariables/ns:GlobalVariables/Services/HubRabbitMQ/VirtualHost,'/',$Start/Inputs/traceQueueName,'/get')"/>
+                </RequestURI>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ParseMessage">
+        <pd:type>com.tibco.plugin.json.activities.JSONParserActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONParserActivity</pd:resourceType>
+        <pd:x>680</pd:x>
+        <pd:y>159</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ValidateOutputEnable>false</ValidateOutputEnable>
+            <ActivityOutputEditor>
+                <xsd:element name="Messages">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="Message" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="payload_bytes" type="xsd:int"/>
+                                        <xsd:element name="redelivered" type="xsd:boolean"/>
+                                        <xsd:element name="exchange" type="xsd:string"/>
+                                        <xsd:element name="routing_key" type="xsd:string"/>
+                                        <xsd:element name="message_count" type="xsd:int"/>
+                                        <xsd:element name="properties">
+                                            <xsd:complexType>
+                                                <xsd:sequence/>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                        <xsd:element name="payload" type="xsd:string"/>
+                                        <xsd:element name="payload_encoding" type="xsd:string"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </ActivityOutputEditor>
+        </config>
+        <pd:inputBindings>
+            <ns2:ActivityInputClass>
+                <jsonString>
+                    <xsl:value-of select="concat('{&quot;Messages&quot;:{&quot;Message&quot;:',txt:replace($GetMessages/response/responseString, 'nbsp;', ''),'}}')"/>
+                </jsonString>
+            </ns2:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="WriteMessageToFile">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>682</pd:x>
+        <pd:y>321</pd:y>
+        <config>
+            <processName>/Re-Push/CommonProcesses/WriteMessageToFile.process</processName>
+            <spawn>true</spawn>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <Path>
+                    <xsl:value-of select="'GENERIC'"/>
+                </Path>
+                <Content>
+                    <xsl:value-of select="tib:render-xml($ParseMessage)"/>
+                </Content>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>CreatePostDataGet</pd:from>
+        <pd:to>GetMessages</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>CreatePostDataGet</pd:to>
+        <pd:xpathDescription>EnvExists</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>(upper-case($Start/Inputs/FromEnv)='TEST'
+or
+upper-case($Start/Inputs/FromEnv)='UAT'
+or
+upper-case($Start/Inputs/FromEnv)='PROD')
+and
+(upper-case($Start/Inputs/ToEnv)='TEST'
+or
+upper-case($Start/Inputs/ToEnv)='UAT'
+or
+upper-case($Start/Inputs/ToEnv)='PROD')</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetMessages</pd:from>
+        <pd:to>ParseMessage</pd:to>
+        <pd:xpathDescription>Success</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$GetMessages/response/status='SUCCESS'</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetMessages</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-65485</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>WriteMessageToFile</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ParseMessage</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ParseMessage</pd:from>
+        <pd:to>WriteMessageToFile</pd:to>
+        <pd:xpathDescription>write to file</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$_globalVariables/ns:GlobalVariables/WriteToFile='true'</pd:xpath>
+    </pd:transition>
+</pd:ProcessDefinition>
